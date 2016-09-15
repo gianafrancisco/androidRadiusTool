@@ -5,7 +5,7 @@ package fransis.org.ar.radiustool;
  */
 public class RadiusServiceMock implements RadiusService {
     @Override
-    public String auth(String host, int port, String userName, String userPassword, String secret) {
+    public String auth(String host, int port, String secret, String userName, String userPassword) {
         return "Access-Accept";
     }
 }

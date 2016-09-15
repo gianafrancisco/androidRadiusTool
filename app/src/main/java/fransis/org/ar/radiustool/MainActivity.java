@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText editUserPassword = null;
     private Button buttonAuth = null;
     private TextView textResponse = null;
-    private RadiusService radiusService = null;
 
 
     @Override
@@ -37,8 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Load an ad into the AdMob banner view.
         AdView adView = (AdView) findViewById(R.id.adView);
+        /*
         AdRequest adRequest = new AdRequest.Builder()
                 .setRequestAgent("android_studio:ad_template").build();
+        */
+        AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 
         editAddress = (EditText) findViewById(R.id.text_radius_ip_address);
@@ -53,21 +55,19 @@ public class MainActivity extends AppCompatActivity {
         // Toasts the test ad message on the screen. Remove this after defining your own ad unit ID.
         Toast.makeText(this, TOAST_TEXT, Toast.LENGTH_LONG).show();
 
-        radiusService = new RadiusServiceMock();
-
         buttonAuth = (Button) findViewById(R.id.button_auth);
         buttonAuth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 savePreferences();
-                String response = radiusService.auth(
+                new RadiusAsyncTask(
                         editAddress.getText().toString(),
                         Integer.parseInt(editAuthPort.getText().toString()),
                         editSecret.getText().toString(),
                         editUserName.getText().toString(),
-                        editUserPassword.getText().toString()
-                        );
-                textResponse.setText(response);
+                        editUserPassword.getText().toString(),
+                        textResponse
+                ).execute();
             }
         });
 
