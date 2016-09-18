@@ -3,6 +3,7 @@ package fransis.org.ar.radiustool;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,10 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    // Remove the below line after defining your own ad unit ID.
-    private static final String TOAST_TEXT = "Test ads are being shown. "
-            + "To show live ads, replace the ad unit ID in res/values/strings.xml with your own ad unit ID.";
-
 
     private EditText editAddress = null;
     private EditText editAuthPort = null;
@@ -51,9 +48,6 @@ public class MainActivity extends AppCompatActivity {
         textResponse = (TextView) findViewById(R.id.text_radius_response);
 
         loadPreferences();
-
-        // Toasts the test ad message on the screen. Remove this after defining your own ad unit ID.
-        Toast.makeText(this, TOAST_TEXT, Toast.LENGTH_LONG).show();
 
         buttonAuth = (Button) findViewById(R.id.button_auth);
         buttonAuth.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
+            Intent aboutMe = new Intent(this, AboutMeActivity.class);
+            startActivity(aboutMe);
             return true;
         }
 
