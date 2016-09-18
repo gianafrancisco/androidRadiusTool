@@ -13,7 +13,7 @@
     <!--
     <string name="banner_ad_unit_id">ca-app-pub-1743053744662602/1764389974</string>
     -->
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_ad_unit_id">ca-app-pub-1743053744662602/1764389974</string>
     <string name="auth_port">Auth port</string>
     <string name="attr_user_name">User-Name</string>
     <string name="attr_user_password">User-Password</string>
