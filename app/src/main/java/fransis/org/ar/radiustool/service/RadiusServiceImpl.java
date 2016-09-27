@@ -1,6 +1,4 @@
-package fransis.org.ar.radiustool;
-
-import android.util.Log;
+package fransis.org.ar.radiustool.service;
 
 import net.sourceforge.jradiusclient.RadiusAttribute;
 import net.sourceforge.jradiusclient.RadiusAttributeValues;

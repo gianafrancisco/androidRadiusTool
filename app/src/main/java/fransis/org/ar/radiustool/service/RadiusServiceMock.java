@@ -1,4 +1,4 @@
-package fransis.org.ar.radiustool;
+package fransis.org.ar.radiustool.service;
 
 /**
  * Created by francisco on 9/14/16.

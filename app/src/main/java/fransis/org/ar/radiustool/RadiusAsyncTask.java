@@ -3,6 +3,9 @@ package fransis.org.ar.radiustool;
 import android.os.AsyncTask;
 import android.widget.TextView;
 
+import fransis.org.ar.radiustool.service.RadiusService;
+import fransis.org.ar.radiustool.service.RadiusServiceImpl;
+
 /**
  * Created by francisco on 15/09/2016.
  */

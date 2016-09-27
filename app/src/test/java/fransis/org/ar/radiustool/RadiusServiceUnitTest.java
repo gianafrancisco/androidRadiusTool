@@ -3,6 +3,9 @@ package fransis.org.ar.radiustool;
 import org.junit.Assert;
 import org.junit.Test;
 
+import fransis.org.ar.radiustool.service.RadiusService;
+import fransis.org.ar.radiustool.service.RadiusServiceMock;
+
 import static org.hamcrest.core.Is.is;
 
 /**

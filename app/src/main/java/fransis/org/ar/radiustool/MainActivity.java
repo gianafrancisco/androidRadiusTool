@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import fransis.org.ar.radiustool.store.TestCaseDbHelper;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText editAddress = null;
@@ -24,12 +26,15 @@ public class MainActivity extends AppCompatActivity {
     private EditText editUserPassword = null;
     private Button buttonAuth = null;
     private TextView textResponse = null;
+    private TestCaseDbHelper dbHelper = null;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        dbHelper = new TestCaseDbHelper(getApplicationContext());
 
         // Load an ad into the AdMob banner view.
         AdView adView = (AdView) findViewById(R.id.adView);
