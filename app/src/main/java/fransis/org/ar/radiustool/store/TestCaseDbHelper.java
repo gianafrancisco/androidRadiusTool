@@ -20,10 +20,10 @@ public class TestCaseDbHelper extends SQLiteOpenHelper {
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE testcase (" +
-                    "id INTEGER PRIMARY KEY," +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "name" + TEXT_TYPE + COMMA_SEP +
                     "address" + TEXT_TYPE + COMMA_SEP +
-                    "authPort INTEGER " + COMMA_SEP +
+                    "auth_port INTEGER " + COMMA_SEP +
                     "secret" + TEXT_TYPE + COMMA_SEP +
                     "user_name" + TEXT_TYPE + COMMA_SEP +
                     "user_password" + TEXT_TYPE + " )";
@@ -31,9 +31,10 @@ public class TestCaseDbHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS testcase";
 
-    public static final int DATABASE_VERSION = 1;
+
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "TestCase.db";
-    private Context mContext;
+    private Context mContext = null;
 
 
     public TestCaseDbHelper(Context context) {
@@ -61,21 +62,27 @@ public class TestCaseDbHelper extends SQLiteOpenHelper {
         values.put("secret", secret);
         values.put("user_name", userName);
         values.put("user_password", userPassword);
+        db.beginTransaction();
         long newRowId = db.insert("testcase", null, values);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+
         return new TestCase(newRowId, name, address, authPort, secret, userName, userPassword);
     }
 
     public List<TestCase> getAll(){
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] projection = {"id","name","address","auth_port","secret","user_name","user_password"};
+        db.beginTransaction();
+        String[] projection = {"id", "name", "address", "auth_port", "secret", "user_name", "user_password"};
         Cursor c = db.query(
-                "testcase",                     // The table to query
-                projection,                               // The columns to return
-                null,                                // The columns for the WHERE clause
-                null,                            // The values for the WHERE clause
-                null,                                     // don't group the rows
-                null,                                     // don't filter by row groups
-                null                                 // The sort order
+                "testcase",
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
         );
         List<TestCase> list = new ArrayList<>();
 
@@ -83,15 +90,38 @@ public class TestCaseDbHelper extends SQLiteOpenHelper {
             TestCase tc = new TestCase(
                     c.getLong(0),
                     c.getString(1),
-                    c.getString(3),
-                    c.getInt(2),
+                    c.getString(2),
+                    c.getInt(3),
                     c.getString(4),
                     c.getString(5),
                     c.getString(6)
             );
+            list.add(tc);
         }
         c.close();
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
         return list;
+    }
+
+    public int remove(TestCase tc) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+        int testcase = db.delete("testcase", "id = " + tc.getId(), null);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+        return testcase;
+    }
+
+    public void removeAll() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+        db.delete("testcase", "1 = 1", null);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
     }
 
 }

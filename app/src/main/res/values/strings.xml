@@ -23,4 +23,7 @@
     <string name="auth_port_value">1812</string>
     <string name="about_me">Francisco Giana \n Java developer and Network engineer.</string>
     <string name="action_about_me">About me</string>
+    <string name="test_case">Test Case</string>
+    <string name="save_test_case">Save</string>
+    <string name="remove_test_case">Remove</string>
 </resources>
