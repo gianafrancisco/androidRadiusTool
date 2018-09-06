@@ -1,19 +1,27 @@
 package fransis.org.ar.radiustool.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 /**
  * Created by francisco on 9/26/16.
  */
+@Entity
 public class TestCase {
+    @PrimaryKey
     private Long id;
     private String name;
     private String address;
+    @ColumnInfo(name = "auth_port")
     private int authPort;
     private String secret;
+    @ColumnInfo(name = "user_name")
     private String userName;
+    @ColumnInfo(name = "user_password")
     private String userPassword;
 
-    public TestCase(Long id, String name, String address, int authPort, String secret, String userName, String userPassword) {
-        this.id = id;
+    public TestCase(String name, String address, int authPort, String secret, String userName, String userPassword) {
         this.name = name;
         this.address = address;
         this.authPort = authPort;
@@ -24,6 +32,10 @@ public class TestCase {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getAddress() {

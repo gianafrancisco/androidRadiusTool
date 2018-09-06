@@ -15,7 +15,6 @@ import java.util.List;
  */
 public class RadiusServiceImpl implements RadiusService {
 
-    public static final int REQUEST_RETRIES = 5;
     private RadiusClient radiusClient;
     private RadiusPacket radiusPacket;
     private RadiusPacket radiusPacketResponse;
@@ -39,9 +38,9 @@ public class RadiusServiceImpl implements RadiusService {
             radiusPacketResponse = radiusClient.authenticate(radiusPacket, REQUEST_RETRIES);
 
             if(radiusPacketResponse.getPacketType() == (byte)RadiusPacket.ACCESS_ACCEPT){
-                response.append("Access-Accept");
+                response.append(ACCESS_ACCEPT);
             }else{
-                response.append("Access-Reject");
+                response.append(ACCESS_REJECT);
             }
 
         } catch (RadiusException e) {

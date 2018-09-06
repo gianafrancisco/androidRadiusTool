@@ -2,6 +2,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="fransis.org.ar.radiustool.MainActivity">
+
+    <item
+    android:id="@+id/action_add"
+    android:icon="@drawable/ic_action_add"
+    android:title="@string/add_test_case"
+    app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_edit"
+        android:icon="@drawable/ic_action_edit"
+        android:title="@string/edit_test_case"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_delete"
+        android:icon="@drawable/ic_action_delete"
+        android:title="@string/remove_test_case"
+        app:showAsAction="ifRoom"/>
+
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
