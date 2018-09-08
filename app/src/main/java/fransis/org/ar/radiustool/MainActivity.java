@@ -29,7 +29,6 @@ import fransis.org.ar.radiustool.store.TestCaseDB;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private static int authCount = 0;
     private EditText editName = null;
     private EditText editAddress = null;
     private EditText editAuthPort = null;
@@ -37,9 +36,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private EditText editUserName = null;
     private EditText editUserPassword = null;
     private Button buttonAuth = null;
-    private Button buttonSave = null;
-    private Button buttonRemove = null;
-    private Button buttonAdd = null;
     private TextView textResponse = null;
     private fransis.org.ar.radiustool.dao.TestCase dao;
     private Spinner spinnerTestCase = null;
@@ -52,14 +48,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
+
+        if(AdSingleton.getInstance().isShowStartUpAd() == true){
+            mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+            mInterstitialAd.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    // Code to be executed when an ad finishes loading.
+                    mInterstitialAd.show();
+                    AdSingleton.getInstance().setShowStartUpAd(false);
+                }
+            });
+        }
+
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
-
-        TestCaseDB db = Room.databaseBuilder(getApplicationContext(),
-                TestCaseDB.class, "Testcase.db").allowMainThreadQueries().build();
-
-        dao = db.testCaseDao();
 
         MobileAds.initialize(this, getResources().getString(R.string.banner_ad_unit_id));
 
@@ -69,18 +77,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
-
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-                mInterstitialAd.show();
-            }
-        });
 
 
         /*
@@ -88,6 +84,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 .setRequestAgent("android_studio:ad_template").build();
         */
 
+
+        TestCaseDB db = Room.databaseBuilder(getApplicationContext(),
+                TestCaseDB.class, "Testcase.db").allowMainThreadQueries().build();
+
+        dao = db.testCaseDao();
 
         editName = (EditText) findViewById(R.id.text_server_name);
         editAddress = (EditText) findViewById(R.id.text_radius_ip_address);
@@ -111,9 +112,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         buttonAuth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                authCount++;
-                if(authCount == 10){
-                    authCount = 0;
+                if(AdSingleton.getInstance().showAd()){
                     mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
                     mInterstitialAd.setAdListener(new AdListener() {
@@ -166,19 +165,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void add() {
-        TestCase tc = new TestCase(
-                editName.getText().toString(),
-                editAddress.getText().toString(),
-                Integer.parseInt(editAuthPort.getText().toString()),
-                editSecret.getText().toString(),
-                editUserName.getText().toString(),
-                editUserPassword.getText().toString()
-        );
+        if(!"".equals(editName.getText().toString())){
+            TestCase tc = new TestCase(
+                    editName.getText().toString(),
+                    editAddress.getText().toString(),
+                    Integer.parseInt(editAuthPort.getText().toString()),
+                    editSecret.getText().toString(),
+                    editUserName.getText().toString(),
+                    editUserPassword.getText().toString()
+            );
 
-        tc.setId(dao.insert(tc));
-        adapter.add(tc);
-        adapter.notifyDataSetChanged();
-        Toast.makeText(getApplicationContext(), "Test case saved.", Toast.LENGTH_LONG).show();
+            tc.setId(dao.insert(tc));
+            adapter.add(tc);
+            adapter.notifyDataSetChanged();
+            Toast.makeText(getApplicationContext(), "Test case saved.", Toast.LENGTH_LONG).show();
+        }else {
+            Toast.makeText(getApplicationContext(), "Please, complete the test name first.", Toast.LENGTH_LONG).show();
+        }
     }
 
 
