@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private EditText editUserPassword = null;
     private Button buttonAuth = null;
     private TextView textResponse = null;
+    private TextView textResponseTime = null;
     private fransis.org.ar.radiustool.dao.TestCase dao;
     private Spinner spinnerTestCase = null;
     private ArrayAdapter<TestCase> adapter = null;
@@ -97,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         editUserName = (EditText) findViewById(R.id.text_radius_username);
         editUserPassword = (EditText) findViewById(R.id.text_radius_password);
         textResponse = (TextView) findViewById(R.id.text_radius_response);
+        textResponseTime = (TextView) findViewById(R.id.text_time_response);
         spinnerTestCase = (Spinner)findViewById(R.id.list_test_cases);
         icView = (ImageView) findViewById(R.id.image_response);
         pbar = (ProgressBar) findViewById(R.id.progress_auth);
@@ -133,8 +135,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         editUserPassword.getText().toString(),
                         textResponse,
                         icView,
-                        pbar
-                ).execute();
+                        pbar,
+                        textResponseTime).execute();
 
             }
         });

@@ -14,6 +14,7 @@ import fransis.org.ar.radiustool.service.RadiusServiceImpl;
  */
 public class RadiusAsyncTask extends AsyncTask<Void, Void, String> {
 
+    public static final String MS = "";
     private RadiusService radiusService;
     private String address;
     private int authPort;
@@ -21,10 +22,12 @@ public class RadiusAsyncTask extends AsyncTask<Void, Void, String> {
     private String userName;
     private String userPassword;
     private TextView textResponse = null;
+    private TextView textResponseTime = null;
     private ImageView icView = null;
     private ProgressBar pbar = null;
+    private long responseTime = 0L;
 
-    public RadiusAsyncTask(String address, int authPort, String secret, String userName, String userPassword, TextView textResponse, ImageView icView, ProgressBar pbar) {
+    public RadiusAsyncTask(String address, int authPort, String secret, String userName, String userPassword, TextView textResponse, ImageView icView, ProgressBar pbar, TextView responseTime) {
         this.address = address;
         this.authPort = authPort;
         this.secret = secret;
@@ -33,24 +36,31 @@ public class RadiusAsyncTask extends AsyncTask<Void, Void, String> {
         this.textResponse = textResponse;
         this.icView = icView;
         this.pbar = pbar;
+        this.textResponseTime = responseTime;
     }
 
     @Override
     protected String doInBackground(Void... voids) {
         radiusService = new RadiusServiceImpl();
-        return radiusService.auth(address, authPort, secret, userName, userPassword);
+        long start = System.currentTimeMillis();
+        String ret = radiusService.auth(address, authPort, secret, userName, userPassword);
+        responseTime = System.currentTimeMillis() - start;
+        return ret;
     }
 
     @Override
     protected void onPreExecute() {
         icView.setVisibility(View.GONE);
         pbar.setVisibility(View.VISIBLE);
+        textResponse.setText("");
+        textResponseTime.setText("");
         super.onPreExecute();
     }
 
     @Override
     protected void onPostExecute(String s) {
         textResponse.setText(s);
+        textResponseTime.setText(responseTime + MS);
         switch (s){
             case RadiusService.ACCESS_ACCEPT:
                 icView.setImageResource(R.mipmap.ic_success);
