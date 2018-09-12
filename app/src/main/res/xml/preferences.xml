@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Response Time"
+        android:key="pref_key_response_time">
+        <EditTextPreference
+            android:key="pref_normal_time_response"
+            android:title="Regular time reponse"
+            android:summary="unit (ms)"
+            android:defaultValue="100"
+            android:inputType="numberDecimal"
+            />
+        <EditTextPreference
+            android:key="pref_high_time_response"
+            android:title="High time reponse"
+            android:defaultValue="300"
+            android:summary="unit (ms)"
+            android:inputType="numberDecimal"
+            />
+    </PreferenceCategory>
+</PreferenceScreen>

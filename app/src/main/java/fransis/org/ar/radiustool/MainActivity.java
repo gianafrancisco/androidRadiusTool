@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private ArrayAdapter<TestCase> adapter = null;
     private ImageView icView = null;
     private ProgressBar pbar = null;
+    private int normalTimeResponse = 0;
+    private int highTimeResponse = 0;
 
     private InterstitialAd mInterstitialAd;
 
@@ -127,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
 
                 savePreferences();
+
                 new RadiusAsyncTask(
                         editAddress.getText().toString(),
                         Integer.parseInt(editAuthPort.getText().toString()),
@@ -136,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         textResponse,
                         icView,
                         pbar,
-                        textResponseTime).execute();
+                        textResponseTime, normalTimeResponse, highTimeResponse).execute();
 
             }
         });
@@ -209,9 +212,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case R.id.action_delete:
                 remove();
                 break;
-            case R.id.action_settings:
+            case R.id.action_about_me:
                 Intent aboutMe = new Intent(this, AboutMeActivity.class);
                 startActivity(aboutMe);
+                break;
+            case R.id.action_settings:
+                Intent settings = new Intent(this, SettingsActivity.class);
+                startActivity(settings);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -237,6 +244,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         editSecret.setText(sp.getString("radius_secret",""));
         editUserName.setText(sp.getString("radius_user_name",""));
         editUserPassword.setText(sp.getString("radius_user_password",""));
+        normalTimeResponse = sp.getInt("pref_normal_time_response",100);
+        highTimeResponse = sp.getInt("pref_high_time_response",300);
     }
 
     @Override
