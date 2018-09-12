@@ -3,4 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="level_0_time_response">#00ff00</color>
+    <color name="level_1_time_response">#fff64e</color>
+    <color name="level_2_time_response">#ff0004</color>
 </resources>

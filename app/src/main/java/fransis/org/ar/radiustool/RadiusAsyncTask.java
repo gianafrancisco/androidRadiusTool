@@ -1,5 +1,6 @@
 package fransis.org.ar.radiustool;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.view.View;
@@ -29,8 +30,9 @@ public class RadiusAsyncTask extends AsyncTask<Void, Void, String> {
     private long responseTime = 0L;
     private int normalTime = 0;
     private int highTime = 0;
+    private Context context = null;
 
-    public RadiusAsyncTask(String address, int authPort, String secret, String userName, String userPassword, TextView textResponse, ImageView icView, ProgressBar pbar, TextView responseTime, int normalTime, int highTime) {
+    public RadiusAsyncTask(Context context, int authPort, String secret, String userName, String userPassword, TextView textResponse, ImageView icView, ProgressBar pbar, TextView responseTime, int normalTime, int highTime, String address) {
         this.address = address;
         this.authPort = authPort;
         this.secret = secret;
@@ -42,6 +44,7 @@ public class RadiusAsyncTask extends AsyncTask<Void, Void, String> {
         this.textResponseTime = responseTime;
         this.normalTime = normalTime;
         this.highTime = highTime;
+        this.context = context;
 
     }
 
@@ -65,17 +68,17 @@ public class RadiusAsyncTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        textResponse.setTextColor(Color.GREEN);
-        textResponseTime.setTextColor(Color.GREEN);
+        textResponse.setTextColor(context.getResources().getColor(R.color.level_0_time_response));
+        textResponseTime.setTextColor(context.getResources().getColor(R.color.level_0_time_response));
         textResponse.setText(s);
         textResponseTime.setText(responseTime + MS);
         if(responseTime > normalTime){
-            textResponse.setTextColor(Color.MAGENTA);
-            textResponseTime.setTextColor(Color.MAGENTA);
+            textResponse.setTextColor(context.getResources().getColor(R.color.level_1_time_response));
+            textResponseTime.setTextColor(context.getResources().getColor(R.color.level_1_time_response));
         }
         if(responseTime > highTime){
-            textResponse.setTextColor(Color.RED);
-            textResponseTime.setTextColor(Color.RED);
+            textResponse.setTextColor(context.getResources().getColor(R.color.level_2_time_response));
+            textResponseTime.setTextColor(context.getResources().getColor(R.color.level_2_time_response));
         }
         switch (s){
             case RadiusService.ACCESS_ACCEPT:
@@ -83,7 +86,7 @@ public class RadiusAsyncTask extends AsyncTask<Void, Void, String> {
                 break;
             case RadiusService.ACCESS_REJECT:
                 icView.setImageResource(R.mipmap.ic_reject);
-                textResponse.setTextColor(Color.RED);
+                textResponse.setTextColor(context.getResources().getColor(R.color.level_2_time_response));
                 break;
             default:
                 icView.setImageResource(R.mipmap.ic_timeout);

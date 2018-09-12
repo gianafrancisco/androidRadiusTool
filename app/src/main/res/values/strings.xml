@@ -32,4 +32,8 @@
     <string name="remove_test_case">Remove</string>
     <string name="label_time">Time (ms)</string>
     <string name="label_response">Response</string>
+    <string name="lower_threshold_time">Low time threshold </string>
+    <string name="upper_threshold_time">Upper time threshold </string>
+    <string name="pref_threshold_title">Response time threshold</string>
+    <string name="pref_threshold_unit">Unit (ms)</string>
 </resources>

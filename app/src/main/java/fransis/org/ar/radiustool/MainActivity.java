@@ -10,6 +10,7 @@ import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -131,15 +132,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 savePreferences();
 
                 new RadiusAsyncTask(
-                        editAddress.getText().toString(),
-                        Integer.parseInt(editAuthPort.getText().toString()),
-                        editSecret.getText().toString(),
-                        editUserName.getText().toString(),
-                        editUserPassword.getText().toString(),
-                        textResponse,
-                        icView,
-                        pbar,
-                        textResponseTime, normalTimeResponse, highTimeResponse).execute();
+                        getApplicationContext(), Integer.parseInt(editAuthPort.getText().toString()), editSecret.getText().toString(), editUserName.getText().toString(), editUserPassword.getText().toString(), textResponse, icView, pbar, textResponseTime, normalTimeResponse, highTimeResponse, editAddress.getText().toString()
+                ).execute();
 
             }
         });
@@ -244,8 +238,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         editSecret.setText(sp.getString("radius_secret",""));
         editUserName.setText(sp.getString("radius_user_name",""));
         editUserPassword.setText(sp.getString("radius_user_password",""));
-        normalTimeResponse = sp.getInt("pref_normal_time_response",100);
-        highTimeResponse = sp.getInt("pref_high_time_response",300);
+        sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        normalTimeResponse = Integer.parseInt(sp.getString("pref_normal_time_response","100"));
+        highTimeResponse = Integer.parseInt(sp.getString("pref_high_time_response","300"));
     }
 
     @Override
@@ -262,5 +257,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        loadPreferences();
+        super.onResume();
     }
 }
