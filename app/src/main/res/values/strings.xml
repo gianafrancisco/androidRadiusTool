@@ -36,4 +36,7 @@
     <string name="upper_threshold_time">Upper time threshold </string>
     <string name="pref_threshold_title">Response time threshold</string>
     <string name="pref_threshold_unit">Unit (ms)</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
+    <string name="message_remove_test">Are you sure to remove this test case?</string>
 </resources>
