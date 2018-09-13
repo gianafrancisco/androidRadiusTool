@@ -170,16 +170,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void edit() {
         TestCase tc = (TestCase) spinnerTestCase.getSelectedItem();
-        tc.setName(editName.getText().toString());
-        tc.setAddress(editAddress.getText().toString());
-        tc.setAuthPort(Integer.parseInt(editAuthPort.getText().toString()));
-        tc.setSecret(editSecret.getText().toString());
-        tc.setUserName(editUserName.getText().toString());
-        tc.setUserPassword(editUserPassword.getText().toString());
+        if(tc !=null){
+            tc.setName(editName.getText().toString());
+            tc.setAddress(editAddress.getText().toString());
+            tc.setAuthPort(Integer.parseInt(editAuthPort.getText().toString()));
+            tc.setSecret(editSecret.getText().toString());
+            tc.setUserName(editUserName.getText().toString());
+            tc.setUserPassword(editUserPassword.getText().toString());
 
-        dao.update(tc);
-        adapter.notifyDataSetChanged();
-        Toast.makeText(getApplicationContext(), "Test case saved.", Toast.LENGTH_LONG).show();
+            dao.update(tc);
+            adapter.notifyDataSetChanged();
+            Toast.makeText(getApplicationContext(), "Test case saved.", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void add() {
