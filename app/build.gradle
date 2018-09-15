@@ -9,7 +9,7 @@ repositories {
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "fransis.org.ar.radiustool"
+        applicationId "ar.org.fransis.radiustool"
         minSdkVersion 18
         targetSdkVersion 26
         versionCode 2

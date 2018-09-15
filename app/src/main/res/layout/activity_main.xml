@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    tools:context="fransis.org.ar.radiustool.MainActivity">
+    tools:context="ar.org.fransis.radiustool.MainActivity">
 
 
     <LinearLayout
