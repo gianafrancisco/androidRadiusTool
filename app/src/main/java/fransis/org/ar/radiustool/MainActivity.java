@@ -143,29 +143,33 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void remove() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        TestCase tc = (TestCase) spinnerTestCase.getSelectedItem();
+        if(tc != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setTitle(R.string.remove_test_case);
-        builder.setMessage(R.string.message_remove_test);
-        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                TestCase tc = (TestCase) spinnerTestCase.getSelectedItem();
-                if(tc != null){
-                    dao.delete(tc);
-                    adapter.remove(tc);
-                    adapter.notifyDataSetChanged();
-                    Toast.makeText(getApplicationContext(), "Test case removed.", Toast.LENGTH_LONG).show();
+            builder.setTitle(R.string.remove_test_case);
+            builder.setMessage(R.string.message_remove_test);
+            builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    TestCase tc = (TestCase) spinnerTestCase.getSelectedItem();
+                    if (tc != null) {
+                        dao.delete(tc);
+                        adapter.remove(tc);
+                        adapter.notifyDataSetChanged();
+                        Toast.makeText(getApplicationContext(), "Test case removed.", Toast.LENGTH_LONG).show();
+                    }
                 }
-            }
-        });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-            }
-        });
+            });
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                }
+            });
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }else{
+            Toast.makeText(getApplicationContext(), "There is not test case selected.", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void edit() {
@@ -181,6 +185,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             dao.update(tc);
             adapter.notifyDataSetChanged();
             Toast.makeText(getApplicationContext(), "Test case saved.", Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(getApplicationContext(), "There is not test case selected.", Toast.LENGTH_LONG).show();
         }
     }
 
