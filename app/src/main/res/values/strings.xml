@@ -3,18 +3,19 @@
 
     <string name="action_settings">Settings</string>
 
-    <!-- -
+    <!--
         This is an ad unit ID for a banner test ad. Replace with your own banner ad unit id.
         For more information, see https://support.google.com/admob/answer/3052638
     -->
+    <!--
+        <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+        <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
+    -->
 
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
-
-<!--
-    <string name="banner_ad_unit_id">ca-app-pub-1743053744662602~4997057978</string>
-    <string name="interstitial_ad_unit_id">ca-app-pub-1743053744662602~4997057978</string>
--->
+    <string name="banner_ad_unit_id">ca-app-pub-1743053744662602/5504646078</string>
+    <string name="interstitial_ad_unit_id_splashscreen">ca-app-pub-1743053744662602/2343296115</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-1743053744662602/9060198969</string>
+    <string name="ads_sdk_id">ca-app-pub-1743053744662602~3891632764</string>
     <string name="auth_port">Auth port</string>
     <string name="attr_user_name">User-Name</string>
     <string name="attr_user_password">User-Password</string>
