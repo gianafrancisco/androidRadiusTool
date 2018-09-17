@@ -82,14 +82,14 @@ public class RadiusAsyncTask extends AsyncTask<Void, Void, String> {
         }
         switch (s){
             case RadiusService.ACCESS_ACCEPT:
-                icView.setImageResource(R.mipmap.ic_success);
+                icView.setImageResource(R.drawable.ic_success);
                 break;
             case RadiusService.ACCESS_REJECT:
-                icView.setImageResource(R.mipmap.ic_reject);
+                icView.setImageResource(R.drawable.ic_reject);
                 textResponse.setTextColor(context.getResources().getColor(R.color.level_2_time_response));
                 break;
             default:
-                icView.setImageResource(R.mipmap.ic_timeout);
+                icView.setImageResource(R.drawable.ic_timeout);
         }
         pbar.setVisibility(View.GONE);
         icView.setVisibility(View.VISIBLE);
