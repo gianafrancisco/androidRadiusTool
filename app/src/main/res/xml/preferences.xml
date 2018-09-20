@@ -17,7 +17,21 @@
             android:summary="@string/pref_threshold_unit"
             android:defaultValue="300"
             android:numeric="integer"
-            android:inputType="number"
-            />
+            android:inputType="number" />
+
+        <PreferenceScreen
+            android:title="@string/pref_compartir"
+            android:key="pref_compartir"
+            android:summary="@string/pref_compartir_ayuda">
+        </PreferenceScreen>
+
+
+        <PreferenceScreen
+
+            android:key="@string/key_platita_vieja"
+            android:summary="@string/summary_header_money"
+            android:icon="@drawable/ic_sync_black"
+            android:title="@string/pref_header_money" />
+
     </PreferenceCategory>
 </PreferenceScreen>
