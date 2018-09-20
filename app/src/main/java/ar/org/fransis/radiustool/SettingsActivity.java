@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -53,11 +50,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             mInterstitialAd = new InterstitialAd(getActivity());
 
             //para Testear
-            mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
-            mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build());
-
-            /*mInterstitialAd.setAdUnitId("AQUI TU KEY DE LA PUBLICIDAD");
-            mInterstitialAd.loadAd(new AdRequest.Builder().build());*/
+            mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
+            mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
             mInterstitialAd.setAdListener(new AdListener()
             {

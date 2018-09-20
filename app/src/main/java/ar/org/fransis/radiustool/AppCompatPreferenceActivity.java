@@ -1,4 +1,4 @@
-package fransis.org.ar.radiustool;
+package ar.org.fransis.radiustool;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -12,10 +12,6 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by Jongewaard Development on 01/07/2018.
- *
- */
 public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
 
     private AppCompatDelegate mDelegate;

@@ -1,7 +1,6 @@
 package ar.org.fransis.radiustool;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ImageView;
