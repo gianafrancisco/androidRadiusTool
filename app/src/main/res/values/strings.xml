@@ -15,6 +15,7 @@
     <string name="banner_ad_unit_id">ca-app-pub-1743053744662602/5504646078</string>
     <string name="interstitial_ad_unit_id_splashscreen">ca-app-pub-1743053744662602/2343296115</string>
     <string name="interstitial_ad_unit_id">ca-app-pub-1743053744662602/9060198969</string>
+    <string name="interstitial_ad_donation">ca-app-pub-1743053744662602/5080315686</string>
     <string name="ads_sdk_id">ca-app-pub-1743053744662602~3891632764</string>
     <string name="auth_port">Auth port</string>
     <string name="attr_user_name">User-Name</string>
@@ -52,7 +53,7 @@
     <string name="summary_header_money">If you liked this application and want to collaborate by viewing an advertising banner (clicking here this text, then clicking on the banner, I will get the income) With this gesture you would be collaborating in my future applications and in the improvement of this application.\nSincerely.\nFrancisco Giana.</string>
     <string name="pref_compartir">Share Simple Radius Test Tool</string>
     <string name="pref_compartir_ayuda">Share Simple Radius Test Tool App and help others to find this amazing tool created to test radius server from an Android device.</string>
-    <string name="share_the_app">Now you can test your server\'s radio from an Android device with this wonderful application.\n\nClicke here to visit:\nhttps://play.google.com/store/apps/details?id=ar.org.fransis.radiustool</string>
+    <string name="share_the_app">Now you can test your radius servers from an Android device with this wonderful application.\n\nClicke here to visit:\nhttps://play.google.com/store/apps/details?id=ar.org.fransis.radiustool</string>
     <string name="pref_gracias_platita">Thank you!</string>
     <!-- Preferences Settings -->
 

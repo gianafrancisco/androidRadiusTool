@@ -50,27 +50,28 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             mInterstitialAd = new InterstitialAd(getActivity());
 
             //para Testear
-            mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
-            mInterstitialAd.loadAd(new AdRequest.Builder().build());
-
-            mInterstitialAd.setAdListener(new AdListener()
-            {
-                @Override
-                public void onAdClosed(){
-
-                    mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build());
-                    Toast.makeText(getActivity(), getString(R.string.pref_gracias_platita), Toast.LENGTH_SHORT).show();
-                    getActivity().onBackPressed();
-                }
-
-            });
-
+            mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_donation));
 
             // Publicidad preference click listener
             Preference myPrefPlatitaVieja = findPreference(getString(R.string.key_platita_vieja));
             myPrefPlatitaVieja.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
-                    pruebaLoca(getActivity());
+                    mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                    mInterstitialAd.setAdListener(new AdListener()
+                    {
+                        @Override
+                        public void onAdLoaded() {
+                            mInterstitialAd.show();
+                            super.onAdLoaded();
+                        }
+
+                        @Override
+                        public void onAdClosed(){
+                            Toast.makeText(getActivity(), getString(R.string.pref_gracias_platita), Toast.LENGTH_SHORT).show();
+                            getActivity().onBackPressed();
+                        }
+
+                    });
                     return true;
                 }
             });
@@ -89,18 +90,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 }
             });
 
-        }
-
-
-    }
-    public static void pruebaLoca(Context context) {
-
-        if( mInterstitialAd.isLoaded()){
-
-            mInterstitialAd.show();
-
-        }else{
-            Log.d("TAG", "The interstitial wasn't loaded yet.");
         }
     }
 }
