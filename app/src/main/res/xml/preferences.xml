@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:title="@string/pref_threshold_title"
-        android:key="pref_key_response_time">
+        android:title="@string/pref_threshold_title">
         <EditTextPreference
             android:key="pref_normal_time_response"
             android:title="@string/lower_threshold_time"
@@ -18,14 +17,17 @@
             android:defaultValue="300"
             android:numeric="integer"
             android:inputType="number" />
-
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/pref_share_title">
         <PreferenceScreen
             android:title="@string/pref_compartir"
             android:key="pref_compartir"
             android:summary="@string/pref_compartir_ayuda">
         </PreferenceScreen>
-
-
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/pref_donate_title">
         <PreferenceScreen
 
             android:key="@string/key_platita_vieja"

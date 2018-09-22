@@ -1,20 +1,12 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
-
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
     tools:context="ar.org.fransis.radiustool.MainActivity">
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,350 +20,298 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             ads:adSize="BANNER"
             ads:adUnitId="@string/banner_ad_unit_id" />
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_margin="@dimen/card_margin"
+            ads:cardCornerRadius="4dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
-
-                <android.support.v7.widget.CardView
-                    android:id="@+id/my_cadview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/card_margin">
-
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="34dp"
-                    android:layout_marginLeft="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
                     android:text="@string/test_case"
-                    android:textSize="18sp"
                     android:textColor="@color/colorPrimaryDark"/>
                 <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/list_test_cases"
                     android:hint="@string/test_case" />
-
-                </android.support.v7.widget.CardView>
-
             </LinearLayout>
 
-        </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/card_margin">
+            android:layout_margin="@dimen/card_margin"
+            ads:cardCornerRadius="4dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
-
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/server_name"
-                android:layout_marginLeft="8dp"
-                android:textSize="18sp"
-                android:textColor="@color/colorPrimaryDark"/>
+                android:orientation="vertical">
 
-            <EditText
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/server_name"
+                    android:layout_marginLeft="3dp"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:id="@+id/text_server_name"
+                    android:hint="@string/server_name"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:id="@+id/text_server_name"
-                android:hint="@string/server_name"
-                android:textSize="18sp"
-                android:textColor="@color/colorPrimaryDark"/>
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/server_address"
+                        android:layout_marginLeft="3dp"
+                        android:textColor="@color/colorPrimaryDark"/>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:id="@+id/text_radius_ip_address"
+                        android:hint="@string/server_address"
+                        android:textSize="18sp"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="3">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/auth_port"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/text_radius_auth_port"
+                        android:inputType="number"
+                        android:hint="@string/auth_port"
+                        android:text="@string/auth_port_value"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                </LinearLayout>
 
 
-        </LinearLayout>
+            </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/server_secret"
+                            android:layout_marginLeft="3dp"
+                            android:textColor="@color/colorPrimaryDark"/>
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/text_radius_secret"
+                            android:hint="@string/server_secret"
+                            android:textColor="@color/colorPrimaryDark"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
         </android.support.v7.widget.CardView>
-    </LinearLayout>
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/card_margin">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="left"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/server_address"
-                    android:layout_marginLeft="8dp"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorPrimaryDark"/>
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:id="@+id/text_radius_ip_address"
-                    android:hint="@string/server_address"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorPrimaryDark"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="right"
-                android:layout_weight="0">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/auth_port"
-                    android:layout_marginRight="8dp"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorPrimaryDark"/>
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:id="@+id/text_radius_auth_port"
-                    android:hint="@string/auth_port"
-                    android:text="@string/auth_port_value"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorPrimaryDark"/>
-
-            </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-
-            android:orientation="vertical">
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/card_margin">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/server_secret"
-                android:layout_marginLeft="8dp"
-                android:textSize="18sp"
-                android:layout_marginBottom="4dp"
-                android:textColor="@color/colorPrimaryDark"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="12dp"
-                android:id="@+id/text_radius_secret"
-                android:hint="@string/server_secret"
-                android:textSize="18sp"
-                android:textColor="@color/colorPrimaryDark"/>
-
-            </android.support.v7.widget.CardView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/card_margin">
+            android:layout_margin="@dimen/card_margin"
+            ads:cardCornerRadius="4dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="left"
-                android:layout_weight="1">
+                android:orientation="horizontal">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/attr_user_name"
-                    android:layout_marginLeft="8dp"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    android:orientation="vertical"
+                    android:layout_weight="1">
 
-                <EditText
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:text="@string/attr_user_name"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:id="@+id/text_radius_username"
+                        android:hint="@string/attr_user_name"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:id="@+id/text_radius_username"
-                    android:hint="@string/attr_user_name"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:text="@string/attr_user_password"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:id="@+id/text_radius_password"
+                        android:hint="@string/attr_user_password"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="right"
-                android:layout_marginLeft="190dp"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/attr_user_password"
-                    android:layout_marginRight="4dp"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorPrimaryDark"/>
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="4dp"
-                    android:id="@+id/text_radius_password"
-                    android:hint="@string/attr_user_password"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorPrimaryDark"/>
-
-            </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-        </LinearLayout>
-
+        </android.support.v7.widget.CardView>
 
         <Button
             android:id="@+id/button_auth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/auth_text"
-            android:textSize="20sp"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimaryDark"
+            />
 
-            android:textColor="@color/colorPrimaryDark"/>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/card_margin"
+        ads:cardCornerRadius="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_weight="2"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:textAlignment="center"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorPrimaryDark"/>
-
-                <TextView
-                    android:id="@+id/text_radius_response_lbl"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/label_response"
-                    android:textAlignment="center"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorPrimaryDark"/>
-
-                <TextView
-                    android:id="@+id/text_time_response_lbl"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:soundEffectsEnabled="false"
-                    android:text="@string/label_time"
-                    android:textAlignment="center"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorPrimaryDark"/>
-
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/text_radius_response_lbl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:text="@string/label_response"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"/>
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/image_response"
-                    android:textAlignment="center"
-                    android:layout_weight="2"/>
+            <TextView
+                android:id="@+id/text_time_response_lbl"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:soundEffectsEnabled="false"
+                android:text="@string/label_time"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"/>
 
-                <ProgressBar
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textAlignment="center"
-                    android:indeterminate="true"
-                    android:id="@+id/progress_auth"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/text_radius_response"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    style="@style/responseText"
-                    android:textAlignment="center"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorPrimaryDark"/>
-
-                <TextView
-                    android:id="@+id/text_time_response"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:soundEffectsEnabled="false"
-                    style="@style/responseTime"
-                    android:textAlignment="center"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorPrimaryDark"/>
-            </LinearLayout>
         </LinearLayout>
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/image_response"
+                android:textAlignment="center"
+                android:layout_weight="2"/>
+
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:indeterminate="true"
+                android:id="@+id/progress_auth"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/text_radius_response"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                style="@style/responseText"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDark"/>
+
+            <TextView
+                android:id="@+id/text_time_response"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:soundEffectsEnabled="false"
+                style="@style/responseTime"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDark"/>
+        </LinearLayout>
+    </LinearLayout>
+    </android.support.v7.widget.CardView>
+    </LinearLayout>
 </ScrollView>
-</RelativeLayout>
