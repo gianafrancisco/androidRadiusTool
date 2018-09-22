@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        MobileAds.initialize(this, getResources().getString(R.string.banner_ad_unit_id));
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
 
@@ -75,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
 
-        MobileAds.initialize(this, getResources().getString(R.string.banner_ad_unit_id));
 
         // Load an ad into the AdMob banner view.
         AdView adView = (AdView) findViewById(R.id.adView);
