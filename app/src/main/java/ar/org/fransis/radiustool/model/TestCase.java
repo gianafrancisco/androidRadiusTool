@@ -29,6 +29,9 @@ public class TestCase {
         this.userName = userName;
         this.userPassword = userPassword;
     }
+    public TestCase(){
+        this("","",1812,"","","");
+    }
 
     public Long getId() {
         return id;

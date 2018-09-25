@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private ProgressBar pbar = null;
     private int normalTimeResponse = 0;
     private int highTimeResponse = 0;
+    private TestCaseDB db = null;
 
     private InterstitialAd mInterstitialAd;
 
@@ -60,7 +61,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
 
         if(AdSingleton.getInstance().isShowStartUpAd() == true){
-            mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            mInterstitialAd.loadAd(new AdRequest.Builder()
+                    //.addTestDevice("9B75E357FEC4150DBD2350B1A0A6E908")
+                    .build());
 
             mInterstitialAd.setAdListener(new AdListener() {
                 @Override
@@ -80,7 +83,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // Load an ad into the AdMob banner view.
         AdView adView = (AdView) findViewById(R.id.adView);
 
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder()
+                //.addTestDevice("9B75E357FEC4150DBD2350B1A0A6E908")
+                .build();
         adView.loadAd(adRequest);
 
 
@@ -91,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         */
 
 
-        TestCaseDB db = Room.databaseBuilder(getApplicationContext(),
+        db = Room.databaseBuilder(getApplicationContext(),
                 TestCaseDB.class, "Testcase.db").allowMainThreadQueries().build();
 
         dao = db.testCaseDao();
@@ -120,7 +125,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View view) {
                 if(AdSingleton.getInstance().showAd()){
-                    mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                    mInterstitialAd.loadAd(new AdRequest.Builder()
+                            //.addTestDevice("9B75E357FEC4150DBD2350B1A0A6E908")
+                            .build());
 
                     mInterstitialAd.setAdListener(new AdListener() {
                         @Override
@@ -130,8 +137,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         }
                     });
                 }
-
-                savePreferences();
 
                 new RadiusAsyncTask(
                         getApplicationContext(), Integer.parseInt(editAuthPort.getText().toString()), editSecret.getText().toString(), editUserName.getText().toString(), editUserPassword.getText().toString(), textResponse, icView, pbar, textResponseTime, normalTimeResponse, highTimeResponse, editAddress.getText().toString()
@@ -245,27 +250,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return super.onOptionsItemSelected(item);
     }
 
-    private void savePreferences(){
-        SharedPreferences.Editor editor = getSharedPreferences("latest_parameters", MODE_PRIVATE).edit();
-
-        editor.putString("radius_name", editName.getText().toString());
-        editor.putString("radius_address", editAddress.getText().toString());
-        editor.putString("radius_auth_port", editAuthPort.getText().toString());
-        editor.putString("radius_secret", editSecret.getText().toString());
-        editor.putString("radius_user_name", editUserName.getText().toString());
-        editor.putString("radius_user_password", editUserPassword.getText().toString());
-        editor.commit();
-    }
 
     private void loadPreferences(){
-        SharedPreferences sp = getSharedPreferences("latest_parameters", MODE_PRIVATE);
-        editName.setText(sp.getString("radius_name",""));
-        editAddress.setText(sp.getString("radius_address",""));
-        editAuthPort.setText(sp.getString("radius_auth_port","1812"));
-        editSecret.setText(sp.getString("radius_secret",""));
-        editUserName.setText(sp.getString("radius_user_name",""));
-        editUserPassword.setText(sp.getString("radius_user_password",""));
-        sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        TestCase tc = null;
+        if(spinnerTestCase != null){
+            tc = (TestCase) spinnerTestCase.getSelectedItem();
+            if(tc == null){
+                tc = new TestCase();
+            }
+            editName.setText(tc.getName());
+            editAddress.setText(tc.getAddress());
+            editAuthPort.setText(Integer.toString(tc.getAuthPort()));
+            editSecret.setText(tc.getSecret());
+            editUserName.setText(tc.getUserName());
+            editUserPassword.setText(tc.getUserPassword());
+        }
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         normalTimeResponse = Integer.parseInt(sp.getString("pref_normal_time_response","100"));
         highTimeResponse = Integer.parseInt(sp.getString("pref_high_time_response","300"));
     }
