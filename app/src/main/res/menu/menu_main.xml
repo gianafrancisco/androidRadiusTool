@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="fransis.org.ar.radiustool.MainActivity">
+    tools:context="ar.org.fransis.radiustool.MainActivity">
 
     <item
     android:id="@+id/action_add"

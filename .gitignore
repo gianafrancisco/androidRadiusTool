@@ -3,6 +3,8 @@
 .idea/
 .DS_Store
 /captures
+app/release/
+local.properties
 
 # Created by https://www.gitignore.io/api/java,gradle
 

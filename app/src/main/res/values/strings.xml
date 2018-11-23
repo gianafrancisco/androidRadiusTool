@@ -3,18 +3,20 @@
 
     <string name="action_settings">Settings</string>
 
-    <!-- -
+    <!--
         This is an ad unit ID for a banner test ad. Replace with your own banner ad unit id.
         For more information, see https://support.google.com/admob/answer/3052638
     -->
+    <!--
+        <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+        <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
+    -->
 
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
-
-<!--
-    <string name="banner_ad_unit_id">ca-app-pub-1743053744662602~4997057978</string>
-    <string name="interstitial_ad_unit_id">ca-app-pub-1743053744662602~4997057978</string>
--->
+    <string name="banner_ad_unit_id">ca-app-pub-1743053744662602/5504646078</string>
+    <string name="interstitial_ad_unit_id_splashscreen">ca-app-pub-1743053744662602/2343296115</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-1743053744662602/9060198969</string>
+    <string name="interstitial_ad_donation">ca-app-pub-1743053744662602/5080315686</string>
+    <string name="ads_sdk_id">ca-app-pub-1743053744662602~3891632764</string>
     <string name="auth_port">Auth port</string>
     <string name="attr_user_name">User-Name</string>
     <string name="attr_user_password">User-Password</string>
@@ -23,7 +25,10 @@
     <string name="server_secret">Shared secret</string>
     <string name="server_name">Test Name</string>
     <string name="auth_port_value">1812</string>
-    <string name="about_me">Francisco Giana \n Java developer and Network engineer. \n gianafrancisco@gmail.com</string>
+
+    <string name="about_me_uno">Francisco Giana \nDeveloper and Network Engineer</string>
+    <string name="about_me_dos">Simple Radius Test Tool © 2018\n<i><u>gianafrancisco@gmail.com</u></i></string>
+
     <string name="action_about_me">About me</string>
     <string name="test_case">Test Case</string>
     <string name="save_test_case">Save</string>
@@ -35,8 +40,22 @@
     <string name="lower_threshold_time">Low time threshold </string>
     <string name="upper_threshold_time">Upper time threshold </string>
     <string name="pref_threshold_title">Response time threshold</string>
+    <string name="pref_share_title">Share</string>
+    <string name="pref_donate_title">Donate</string>
     <string name="pref_threshold_unit">Unit (ms)</string>
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
     <string name="message_remove_test">Are you sure to remove this test case?</string>
+
+    <!-- Preferences settings -->
+    <string name="key_platita_vieja">key_platita_vieja</string>
+    <string name="pref_header_money">Why advertising (ads)?</string>
+    <string name="summary_header_money">If you liked this application and want to collaborate by viewing an advertising banner (clicking here this text, then clicking on the banner, I will get the income) With this gesture you would be collaborating in my future applications and in the improvement of this application.\nSincerely.\nFrancisco Giana.</string>
+    <string name="pref_compartir">Share Simple Radius Test Tool</string>
+    <string name="pref_compartir_ayuda">Share Simple Radius Test Tool App and help others to find this amazing tool created to test radius server from an Android device.</string>
+    <string name="share_the_app">Now you can test your radius servers from an Android device with this wonderful application.\n\nClicke here to visit:\nhttps://play.google.com/store/apps/details?id=ar.org.fransis.radiustool</string>
+    <string name="pref_gracias_platita">Thank you!</string>
+    <!-- Preferences Settings -->
+
+
 </resources>

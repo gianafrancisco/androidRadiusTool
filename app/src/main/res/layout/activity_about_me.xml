@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,23 +10,45 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="fransis.org.ar.radiustool.AboutMeActivity">
+    tools:context="ar.org.fransis.radiustool.AboutMeActivity">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/about_me"
+        android:text="@string/about_me_uno"
         android:textAlignment="textStart"
-        android:textSize="24dp"
+        android:textSize="18dp"
+        android:textColor="@color/primary_text"
+        android:inputType="none"
+        android:enabled="false"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/about_me_dos"
+        android:textSize="18dp"
+        android:textColor="@color/secondary_text"
+        android:textAlignment="textStart"
         android:inputType="none"
         android:enabled="false"/>
 
+    </LinearLayout>
+    </android.support.v7.widget.CardView>
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="right|bottom"
         app:srcCompat="@drawable/salchicha" />
-
-
 </LinearLayout>
