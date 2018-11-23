@@ -60,20 +60,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
 
-        if(AdSingleton.getInstance().isShowStartUpAd() == true){
+        //if(AdSingleton.getInstance().isShowStartUpAd() == true){
             mInterstitialAd.loadAd(new AdRequest.Builder()
                     //.addTestDevice("9B75E357FEC4150DBD2350B1A0A6E908")
                     .build());
 
             mInterstitialAd.setAdListener(new AdListener() {
-                @Override
+                /*@Override
                 public void onAdLoaded() {
                     // Code to be executed when an ad finishes loading.
                     mInterstitialAd.show();
                     AdSingleton.getInstance().setShowStartUpAd(false);
+                }*/
+
+                @Override
+                public void onAdClosed() {
+                    mInterstitialAd.loadAd(new AdRequest.Builder()
+                            //.addTestDevice("9B75E357FEC4150DBD2350B1A0A6E908")
+                            .build());
                 }
             });
-        }
+        //}
 
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
@@ -125,7 +132,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View view) {
                 if(AdSingleton.getInstance().showAd()){
-                    mInterstitialAd.loadAd(new AdRequest.Builder()
+
+                    if (mInterstitialAd.isLoaded()) {
+                        mInterstitialAd.show();
+                    }
+
+                    /*mInterstitialAd.loadAd(new AdRequest.Builder()
                             //.addTestDevice("9B75E357FEC4150DBD2350B1A0A6E908")
                             .build());
 
@@ -135,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                             // Code to be executed when an ad finishes loading.
                             mInterstitialAd.show();
                         }
-                    });
+                    });*/
                 }
 
                 new RadiusAsyncTask(
