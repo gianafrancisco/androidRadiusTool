@@ -48,30 +48,31 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.preferences);
 
             mInterstitialAd = new InterstitialAd(getActivity());
-
-            //para Testear
             mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_donation));
+            mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            mInterstitialAd.setAdListener(new AdListener()
+            {
+                @Override
+                public void onAdLoaded() {
+                    super.onAdLoaded();
+                }
+
+                @Override
+                public void onAdClosed(){
+                    Toast.makeText(getActivity(), getString(R.string.pref_gracias_platita), Toast.LENGTH_SHORT).show();
+                    getActivity().onBackPressed();
+                }
+
+            });
 
             // Publicidad preference click listener
             Preference myPrefPlatitaVieja = findPreference(getString(R.string.key_platita_vieja));
             myPrefPlatitaVieja.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
-                    mInterstitialAd.loadAd(new AdRequest.Builder().build());
-                    mInterstitialAd.setAdListener(new AdListener()
-                    {
-                        @Override
-                        public void onAdLoaded() {
-                            mInterstitialAd.show();
-                            super.onAdLoaded();
-                        }
 
-                        @Override
-                        public void onAdClosed(){
-                            Toast.makeText(getActivity(), getString(R.string.pref_gracias_platita), Toast.LENGTH_SHORT).show();
-                            getActivity().onBackPressed();
-                        }
-
-                    });
+                    if(mInterstitialAd.isLoaded()){
+                        mInterstitialAd.show();
+                    }
                     return true;
                 }
             });
