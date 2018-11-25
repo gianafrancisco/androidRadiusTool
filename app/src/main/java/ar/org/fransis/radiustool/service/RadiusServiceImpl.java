@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ar.org.fransis.radiustool.model.RadiusResponse;
+
 /**
  * Created by francisco on 15/09/2016.
  */
@@ -59,6 +61,7 @@ public class RadiusServiceImpl implements RadiusService {
         } catch (InvalidParameterException e) {
             response.put(RADIUS_EXCEPTION, e.getMessage());
         }
+        // RadiusResponse r = new RadiusResponse(radiusPacketResponse);
         return response;
     }
 }

@@ -3,6 +3,9 @@ package ar.org.fransis.radiustool;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Collection;
+
+import ar.org.fransis.radiustool.model.RadiusResponse;
 import ar.org.fransis.radiustool.service.RadiusService;
 import ar.org.fransis.radiustool.service.RadiusServiceMock;
 import java.util.HashMap;

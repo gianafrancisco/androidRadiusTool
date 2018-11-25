@@ -8,6 +8,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.HashMap;
+import net.sourceforge.jradiusclient.exception.InvalidParameterException;
+import net.sourceforge.jradiusclient.exception.RadiusException;
 
 import ar.org.fransis.radiustool.service.RadiusService;
 import ar.org.fransis.radiustool.service.RadiusServiceImpl;
@@ -59,7 +61,15 @@ public class RadiusAsyncTask extends AsyncTask<Void, Void, HashMap<Integer, Stri
     protected HashMap<Integer, String> doInBackground(Void... voids) {
         radiusService = new RadiusServiceImpl();
         long start = System.currentTimeMillis();
-        HashMap<Integer, String> ret = radiusService.auth(address, authPort, secret, userName, userPassword);
+
+        HashMap<Integer, String> ret = null;
+        // try {
+        ret = radiusService.auth(address, authPort, secret, userName, userPassword);
+        /*} catch (RadiusException e) {
+            ret = e.getMessage();
+        } catch (InvalidParameterException e) {
+            ret = e.getMessage();
+        }*/
         responseTime = System.currentTimeMillis() - start;
         return ret;
     }
