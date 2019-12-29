@@ -23,3 +23,10 @@ script:
    #- ./gradlew compileReleaseSources
    - ./gradlew assemble
    - ls -l -R app/build/outputs/apk
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file: "app/build/outputs/apk/release/app-release-unsigned.apk"
+  skip_cleanup: true
+  draft: true
