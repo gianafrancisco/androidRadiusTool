@@ -7,13 +7,19 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 import ar.org.fransis.radiustool.service.RadiusService;
 import ar.org.fransis.radiustool.service.RadiusServiceImpl;
+
+import static ar.org.fransis.radiustool.service.RadiusService.RADIUS_EXCEPTION;
+import static ar.org.fransis.radiustool.service.RadiusService.REPLY_MESSAGE;
+import static ar.org.fransis.radiustool.service.RadiusService.RESPONSE_TYPE;
 
 /**
  * Created by francisco on 15/09/2016.
  */
-public class RadiusAsyncTask extends AsyncTask<Void, Void, String> {
+public class RadiusAsyncTask extends AsyncTask<Void, Void, HashMap<Integer, String>> {
 
     public static final String MS = "";
     private RadiusService radiusService;
@@ -24,6 +30,7 @@ public class RadiusAsyncTask extends AsyncTask<Void, Void, String> {
     private String userPassword;
     private TextView textResponse = null;
     private TextView textResponseTime = null;
+    private TextView textReplyMessage = null;
     private ImageView icView = null;
     private ProgressBar pbar = null;
     private long responseTime = 0L;
@@ -31,7 +38,7 @@ public class RadiusAsyncTask extends AsyncTask<Void, Void, String> {
     private int highTime = 0;
     private Context context = null;
 
-    public RadiusAsyncTask(Context context, int authPort, String secret, String userName, String userPassword, TextView textResponse, ImageView icView, ProgressBar pbar, TextView responseTime, int normalTime, int highTime, String address) {
+    public RadiusAsyncTask(Context context, int authPort, String secret, String userName, String userPassword, TextView textResponse, ImageView icView, ProgressBar pbar, TextView responseTime, int normalTime, int highTime, String address, TextView textReplyMessage) {
         this.address = address;
         this.authPort = authPort;
         this.secret = secret;
@@ -44,14 +51,15 @@ public class RadiusAsyncTask extends AsyncTask<Void, Void, String> {
         this.normalTime = normalTime;
         this.highTime = highTime;
         this.context = context;
+        this.textReplyMessage = textReplyMessage;
 
     }
 
     @Override
-    protected String doInBackground(Void... voids) {
+    protected HashMap<Integer, String> doInBackground(Void... voids) {
         radiusService = new RadiusServiceImpl();
         long start = System.currentTimeMillis();
-        String ret = radiusService.auth(address, authPort, secret, userName, userPassword);
+        HashMap<Integer, String> ret = radiusService.auth(address, authPort, secret, userName, userPassword);
         responseTime = System.currentTimeMillis() - start;
         return ret;
     }
@@ -62,14 +70,24 @@ public class RadiusAsyncTask extends AsyncTask<Void, Void, String> {
         pbar.setVisibility(View.VISIBLE);
         textResponse.setText("");
         textResponseTime.setText("");
+        textReplyMessage.setText("");
         super.onPreExecute();
     }
 
     @Override
-    protected void onPostExecute(String s) {
+    protected void onPostExecute(HashMap<Integer, String> ret) {
+        StringBuilder message = new StringBuilder();
+        StringBuilder reply_message = new StringBuilder();
+        if(ret.containsKey(RADIUS_EXCEPTION))
+        {
+            message.append(ret.get(RADIUS_EXCEPTION));
+        }else if(ret.containsKey(RESPONSE_TYPE))
+        {
+            message.append(ret.get(RESPONSE_TYPE));
+        }
         textResponse.setTextColor(context.getResources().getColor(R.color.level_0_time_response));
         textResponseTime.setTextColor(context.getResources().getColor(R.color.level_0_time_response));
-        textResponse.setText(s);
+        textResponse.setText(message);
         textResponseTime.setText(responseTime + MS);
         if(responseTime > normalTime){
             textResponse.setTextColor(context.getResources().getColor(R.color.level_1_time_response));
@@ -79,7 +97,7 @@ public class RadiusAsyncTask extends AsyncTask<Void, Void, String> {
             textResponse.setTextColor(context.getResources().getColor(R.color.level_2_time_response));
             textResponseTime.setTextColor(context.getResources().getColor(R.color.level_2_time_response));
         }
-        switch (s){
+        switch (message.toString()){
             case RadiusService.ACCESS_ACCEPT:
                 icView.setImageResource(R.drawable.ic_success);
                 break;
@@ -92,5 +110,6 @@ public class RadiusAsyncTask extends AsyncTask<Void, Void, String> {
         }
         pbar.setVisibility(View.GONE);
         icView.setVisibility(View.VISIBLE);
+        textReplyMessage.setText(ret.get(REPLY_MESSAGE));
     }
 }
