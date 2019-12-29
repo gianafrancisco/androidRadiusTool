@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private Button buttonAuth = null;
     private TextView textResponse = null;
     private TextView textResponseTime = null;
+    private TextView textReplyMessage = null;
     private ar.org.fransis.radiustool.dao.TestCase dao;
     private Spinner spinnerTestCase = null;
     private ArrayAdapter<TestCase> adapter = null;
@@ -116,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         editUserPassword = (EditText) findViewById(R.id.text_radius_password);
         textResponse = (TextView) findViewById(R.id.text_radius_response);
         textResponseTime = (TextView) findViewById(R.id.text_time_response);
+        textReplyMessage = (TextView) findViewById(R.id.text_radius_reply_message);
         spinnerTestCase = (Spinner)findViewById(R.id.list_test_cases);
         icView = (ImageView) findViewById(R.id.image_response);
         pbar = (ProgressBar) findViewById(R.id.progress_auth);
@@ -151,8 +153,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
 
                 new RadiusAsyncTask(
-                        getApplicationContext(), Integer.parseInt(editAuthPort.getText().toString()), editSecret.getText().toString(), editUserName.getText().toString(), editUserPassword.getText().toString(), textResponse, icView, pbar, textResponseTime, normalTimeResponse, highTimeResponse, editAddress.getText().toString()
-                ).execute();
+                        getApplicationContext(),
+                        Integer.parseInt(editAuthPort.getText().toString()),
+                        editSecret.getText().toString(),
+                        editUserName.getText().toString(),
+                        editUserPassword.getText().toString(),
+                        textResponse,
+                        icView,
+                        pbar,
+                        textResponseTime,
+                        normalTimeResponse,
+                        highTimeResponse,
+                        editAddress.getText().toString(),
+                        textReplyMessage).execute();
 
             }
         });
