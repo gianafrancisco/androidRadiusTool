@@ -38,3 +38,5 @@ deploy:
   upload-dir: "app/build/outputs/apk"
   bucket: "travis-ci-apk"
   skip_cleanup: true
+  on:
+    all_branches: true
