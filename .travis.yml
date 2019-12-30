@@ -35,7 +35,7 @@ deploy:
   provider: s3
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
-  file: "app/build/outputs/apk"
+  local_dir: "app/build/outputs/apk"
   bucket: "travis-ci-apk"
   skip_cleanup: true
   on:
