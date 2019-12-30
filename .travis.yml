@@ -24,9 +24,17 @@ script:
    - ./gradlew assemble
    - ls -l -R app/build/outputs/apk
 
+#deploy:
+#  provider: releases
+#  api_key: $GITHUB_TOKEN
+#  file: "app/build/outputs/apk/release/app-release-unsigned.apk"
+#  skip_cleanup: true
+#  draft: true
+
 deploy:
-  provider: releases
-  api_key: $GITHUB_TOKEN
-  file: "app/build/outputs/apk/release/app-release-unsigned.apk"
+  provider: s3
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+  upload-dir: "app/build/outputs/apk"
+  bucket: "travis-ci-apk"
   skip_cleanup: true
-  draft: true
