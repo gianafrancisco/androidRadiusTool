@@ -8,6 +8,7 @@ import net.sourceforge.jradiusclient.exception.InvalidParameterException;
 import net.sourceforge.jradiusclient.exception.RadiusException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -20,8 +21,9 @@ public class RadiusServiceImpl implements RadiusService {
     private RadiusPacket radiusPacketResponse;
 
     @Override
-    public String auth(String host, int port, String secret, String userName, String userPassword) {
-        StringBuilder response = new StringBuilder();
+    public HashMap<Integer, String> auth(String host, int port, String secret, String userName, String userPassword) {
+        StringBuilder reply_message = new StringBuilder();
+        HashMap<Integer,String> response = new HashMap<>();
         try {
             radiusClient = new RadiusClient(host, port, 1813, secret);
             List<RadiusAttribute> attributeList = new ArrayList<RadiusAttribute>();
@@ -38,16 +40,25 @@ public class RadiusServiceImpl implements RadiusService {
             radiusPacketResponse = radiusClient.authenticate(radiusPacket, REQUEST_RETRIES);
 
             if(radiusPacketResponse.getPacketType() == (byte)RadiusPacket.ACCESS_ACCEPT){
-                response.append(ACCESS_ACCEPT);
+                response.put(257, ACCESS_ACCEPT);
             }else{
-                response.append(ACCESS_REJECT);
+                response.put(257, ACCESS_REJECT);
             }
 
+            try {
+                RadiusAttribute rad_reply_message = radiusPacketResponse.getAttribute(18);
+                reply_message.append(new String(rad_reply_message.getValue()));
+            }catch(RadiusException e) {
+                reply_message.append("Reply-Message not found.");
+            }
+
+            response.put(REPLY_MESSAGE, reply_message.toString());
+
         } catch (RadiusException e) {
-            response.append(e.getMessage());
+            response.put(RADIUS_EXCEPTION, e.getMessage());
         } catch (InvalidParameterException e) {
-            response.append(e.getMessage());
+            response.put(RADIUS_EXCEPTION, e.getMessage());
         }
-        return response.toString();
+        return response;
     }
 }
