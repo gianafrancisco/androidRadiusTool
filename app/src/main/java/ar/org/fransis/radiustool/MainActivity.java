@@ -5,6 +5,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+import com.vorlonsoft.android.rate.AppRate;
 
 import android.arch.persistence.room.Room;
 import android.content.DialogInterface;
@@ -84,6 +85,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //}
 
         super.onCreate(savedInstanceState);
+        AppRate.with(this)
+                .setInstallDays((byte) 0)                  // default is 10, 0 means install day, 10 means app is launched 10 or more days later than installation
+                .setLaunchTimes((byte) 5)                  // default is 10, 3 means app is launched 3 or more times
+                .setRemindInterval((byte) 3)               // default is 1, 1 means app is launched 1 or more days after neutral button clicked
+                .setSelectedAppLaunches((byte) 1)         // default is 0, 1 means app is launched 1 or more times after neutral button clicked
+                .setTitle(R.string.new_rate_dialog_title)
+                .setTextLater(R.string.new_rate_dialog_later)
+                /* comment to use library strings instead app strings - end */
+                /* uncomment to use app string instead library string */
+                .setMessage(R.string.new_rate_dialog_message)
+                /* comment to use library strings instead app strings - start */
+                .setTextNever(R.string.new_rate_dialog_never)
+                .setTextRateNow(R.string.new_rate_dialog_ok)
+                .monitor();                                // Monitors the app launch times
+        AppRate.showRateDialogIfMeetsConditions(this); // Shows the Rate Dialog when conditions are met
+
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
 
