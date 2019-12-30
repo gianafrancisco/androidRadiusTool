@@ -64,5 +64,6 @@
     <string name="new_rate_dialog_ok">Rate It Now</string>
     <string name="new_rate_dialog_later">Remind Me Later</string>
     <string name="new_rate_dialog_never">No, Thanks</string>
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
 
 </resources>
