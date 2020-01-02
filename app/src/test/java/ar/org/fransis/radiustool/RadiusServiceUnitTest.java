@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import ar.org.fransis.radiustool.service.RadiusService;
 import ar.org.fransis.radiustool.service.RadiusServiceMock;
+import java.util.HashMap;
 
 import static org.hamcrest.core.Is.is;
 
@@ -17,8 +18,8 @@ public class RadiusServiceUnitTest {
     @Test
     public void auth_test() throws Exception {
 
-        String response = radiusService.auth("localhost", 1812, "pass1", "secret", "user1");
+        HashMap<Integer, String> response = radiusService.auth("localhost", 1812, "pass1", "secret", "user1");
 
-        Assert.assertThat(response, is("Access-Accept"));
+        Assert.assertThat(response.get(RadiusService.RESPONSE_TYPE), is("Access-Accept"));
     }
 }
