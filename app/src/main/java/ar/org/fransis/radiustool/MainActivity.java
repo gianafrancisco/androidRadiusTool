@@ -18,7 +18,10 @@ import android.view.MenuItem;
 import ar.org.fransis.radiustool.model.TestCase;
 
 
-public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener, AboutMeFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity
+        implements MainFragment.OnFragmentInteractionListener,
+            AboutMeFragment.OnFragmentInteractionListener,
+            SettingsFragment.OnFragmentInteractionListener {
 
     private InterstitialAd mInterstitialAd;
     private MainFragment mainFragment;
@@ -122,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
             case R.id.action_settings:
                 Intent settings = new Intent(this, SettingsActivity.class);
                 startActivity(settings);
+                //getFragmentManager().beginTransaction().replace(R.id.fragment_container, SettingsFragment.newInstance("","")).addToBackStack(null).commit();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, SettingsFragment.newInstance("","")).addToBackStack(null).commit();
                 break;
         }
         return super.onOptionsItemSelected(item);
