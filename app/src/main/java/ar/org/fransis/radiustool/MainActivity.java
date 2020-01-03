@@ -144,11 +144,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void hideMenu() {
-
-    }
-
-    @Override
     public void onAdd(TestCase testCase) {
 
     }
