@@ -28,8 +28,9 @@ public class MainActivity extends AppCompatActivity
             AboutMeFragment.OnFragmentInteractionListener,
             SettingsFragment.OnFragmentInteractionListener {
 
+    public static final String LOG_ADS_TAG = "Ads";
     private InterstitialAd mInterstitialAd;
-    private InterstitialAd mInterstitialAdSettings;
+    private InterstitialAd mInterstitialAdPreference;
     private MainFragment mMainFragment;
     private SettingsFragment mSettingsFragment;
     private AboutMeFragment mAboutMeFragment;
@@ -44,8 +45,8 @@ public class MainActivity extends AppCompatActivity
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
 
-        mInterstitialAdSettings = new InterstitialAd(this);
-        mInterstitialAdSettings.setAdUnitId(getResources().getString(R.string.interstitial_ad_donation));
+        mInterstitialAdPreference = new InterstitialAd(this);
+        mInterstitialAdPreference.setAdUnitId(getResources().getString(R.string.interstitial_ad_donation));
 
         //if(AdSingleton.getInstance().isShowStartUpAd() == true){
         mInterstitialAd.loadAd(new AdRequest.Builder()
@@ -53,17 +54,23 @@ public class MainActivity extends AppCompatActivity
                 .build());
 
         mInterstitialAd.setAdListener(new AdListener() {
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                Log.d("Ads", "mInterstitialAd onAdFailedToLoad " + i);
+            }
+
             @Override
             public void onAdLoaded() {
                 // Code to be executed when an ad finishes loading.
                 //mInterstitialAd.show();
                 //AdSingleton.getInstance().setShowStartUpAd(false);
-                Log.d("Ad", "mInterstitialAd Loaded");
+                Log.d("Ads", "mInterstitialAd Loaded");
             }
 
             @Override
             public void onAdClosed() {
-                Log.d("Ad", "mInterstitialAd AdClosed");
+                Log.d("Ads", "mInterstitialAd AdClosed");
                 mInterstitialAd.loadAd(new AdRequest.Builder()
                         //.addTestDevice("9B75E357FEC4150DBD2350B1A0A6E908")
                         .build());
@@ -71,20 +78,26 @@ public class MainActivity extends AppCompatActivity
         });
         //}
 
-        mInterstitialAdSettings.loadAd(new AdRequest.Builder().build());
+        mInterstitialAdPreference.loadAd(new AdRequest.Builder().build());
         final Activity activity = this;
-        mInterstitialAdSettings.setAdListener(new AdListener()
+        mInterstitialAdPreference.setAdListener(new AdListener()
         {
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                Log.d("Ads", "mInterstitialAdPreference onAdFailedToLoad " + i);
+            }
+
             @Override
             public void onAdLoaded() {
-                Log.d("Ad", "mInterstitialAdSettings Loaded");
+                Log.d("Ads", "mInterstitialAdPreference Loaded");
                 //super.onAdLoaded();
             }
 
             @Override
             public void onAdClosed(){
-                mInterstitialAdSettings.loadAd(new AdRequest.Builder().build());
-                Log.d("Ad", "mInterstitialAdSettings AdClosed");
+                mInterstitialAdPreference.loadAd(new AdRequest.Builder().build());
+                Log.d(LOG_ADS_TAG, "mInterstitialAdPreference AdClosed");
                 Toast.makeText(activity, getString(R.string.pref_gracias_platita), Toast.LENGTH_SHORT).show();
                 activity.onBackPressed();
             }
@@ -155,8 +168,6 @@ public class MainActivity extends AppCompatActivity
                 mMainFragment.remove();
                 break;
             case R.id.action_about_me:
-                //Intent aboutMe = new Intent(this, AboutMeActivity.class);
-                //startActivity(aboutMe);
                 if(mAboutMeFragment == null)
                 {
                     mAboutMeFragment = AboutMeFragment.newInstance("","");
@@ -167,8 +178,6 @@ public class MainActivity extends AppCompatActivity
                         .addToBackStack(null).commit();
                 break;
             case R.id.action_settings:
-                //Intent settings = new Intent(this, SettingsActivity.class);
-                //startActivity(settings);
                 if(mSettingsFragment == null)
                 {
                     mSettingsFragment = SettingsFragment.newInstance();
@@ -195,8 +204,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onShowAdPreference() {
-        if(mInterstitialAdSettings.isLoaded()){
-            mInterstitialAdSettings.show();
+        if(mInterstitialAdPreference.isLoaded()){
+            mInterstitialAdPreference.show();
         }
     }
 
