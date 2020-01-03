@@ -1,13 +1,11 @@
 package ar.org.fransis.radiustool;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
