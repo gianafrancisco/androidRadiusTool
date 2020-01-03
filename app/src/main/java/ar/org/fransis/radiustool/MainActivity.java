@@ -123,10 +123,10 @@ public class MainActivity extends AppCompatActivity
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, AboutMeFragment.newInstance("","")).addToBackStack(null).commit();
                 break;
             case R.id.action_settings:
-                Intent settings = new Intent(this, SettingsActivity.class);
-                startActivity(settings);
+                //Intent settings = new Intent(this, SettingsActivity.class);
+                //startActivity(settings);
                 //getFragmentManager().beginTransaction().replace(R.id.fragment_container, SettingsFragment.newInstance("","")).addToBackStack(null).commit();
-                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, SettingsFragment.newInstance("","")).addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, SettingsFragment.newInstance("","")).addToBackStack(null).commit();
                 break;
         }
         return super.onOptionsItemSelected(item);
