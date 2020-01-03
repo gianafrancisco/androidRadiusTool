@@ -6,15 +6,20 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.vorlonsoft.android.rate.AppRate;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
+
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import ar.org.fransis.radiustool.model.TestCase;
+import ar.org.fransis.radiustool.store.TestCaseDB;
 
 
 public class MainActivity extends AppCompatActivity
@@ -23,7 +28,12 @@ public class MainActivity extends AppCompatActivity
             SettingsFragment.OnFragmentInteractionListener {
 
     private InterstitialAd mInterstitialAd;
-    private MainFragment mainFragment;
+    private InterstitialAd mInterstitialAdSettings;
+    private MainFragment mMainFragment;
+    private SettingsFragment mSettingsFragment;
+    private AboutMeFragment mAboutMeFragment;
+    private TestCaseDB mDatabase = null;
+    private ar.org.fransis.radiustool.dao.TestCase mTestCaseDAO;
 
 
     @Override
@@ -32,6 +42,9 @@ public class MainActivity extends AppCompatActivity
         MobileAds.initialize(this, getResources().getString(R.string.banner_ad_unit_id));
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
+
+        mInterstitialAdSettings = new InterstitialAd(this);
+        mInterstitialAdSettings.setAdUnitId(getResources().getString(R.string.interstitial_ad_donation));
 
         //if(AdSingleton.getInstance().isShowStartUpAd() == true){
         mInterstitialAd.loadAd(new AdRequest.Builder()
@@ -55,9 +68,42 @@ public class MainActivity extends AppCompatActivity
         });
         //}
 
+        mInterstitialAdSettings.loadAd(new AdRequest.Builder().build());
+        final Activity activity = this;
+        mInterstitialAdSettings.setAdListener(new AdListener()
+        {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+            }
+
+            @Override
+            public void onAdClosed(){
+                Toast.makeText(activity, getString(R.string.pref_gracias_platita), Toast.LENGTH_SHORT).show();
+                activity.onBackPressed();
+            }
+
+        });
+
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
+
+        // Load an ad into the AdMob banner view.
+
+        mDatabase = Room.databaseBuilder(this.getApplicationContext(),
+                TestCaseDB.class, "Testcase.db").allowMainThreadQueries().build();
+        mTestCaseDAO = mDatabase.testCaseDao();
+
+        /*
+        AdRequest adRequest = new AdRequest.Builder()
+                .setRequestAgent("android_studio:ad_template").build();
+        */
+        mMainFragment = MainFragment.newInstance("","");
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.fragment_container, mMainFragment);
+        fragmentTransaction.commit();
 
         AppRate.with(this)
                 .setInstallDays((byte) 0)                  // default is 10, 0 means install day, 10 means app is launched 10 or more days later than installation
@@ -74,20 +120,6 @@ public class MainActivity extends AppCompatActivity
                 .setTextRateNow(R.string.new_rate_dialog_ok)
                 .monitor();                                // Monitors the app launch times
         AppRate.showRateDialogIfMeetsConditions(this); // Shows the Rate Dialog when conditions are met
-
-        // Load an ad into the AdMob banner view.
-
-
-        /*
-        AdRequest adRequest = new AdRequest.Builder()
-                .setRequestAgent("android_studio:ad_template").build();
-        */
-        mainFragment = MainFragment.newInstance("","");
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, mainFragment);
-        fragmentTransaction.commit();
-
 
     }
 
@@ -106,25 +138,39 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId()){
             case R.id.action_add:
                 //add();
-                mainFragment.add();
+                mMainFragment.add();
                 break;
             case R.id.action_edit:
                 //edit();
-                mainFragment.edit();
+                mMainFragment.edit();
                 break;
             case R.id.action_delete:
                 //remove();
-                mainFragment.remove();
+                mMainFragment.remove();
                 break;
             case R.id.action_about_me:
                 //Intent aboutMe = new Intent(this, AboutMeActivity.class);
                 //startActivity(aboutMe);
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, AboutMeFragment.newInstance("","")).addToBackStack(null).commit();
+                if(mAboutMeFragment == null)
+                {
+                    mAboutMeFragment = AboutMeFragment.newInstance("","");
+                }
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, mAboutMeFragment)
+                        .addToBackStack(null).commit();
                 break;
             case R.id.action_settings:
                 //Intent settings = new Intent(this, SettingsActivity.class);
                 //startActivity(settings);
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, SettingsFragment.newInstance("","")).addToBackStack(null).commit();
+                if(mSettingsFragment == null)
+                {
+                    mSettingsFragment = SettingsFragment.newInstance();
+                }
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, mSettingsFragment)
+                        .addToBackStack(null).commit();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -142,18 +188,40 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onAdd(TestCase testCase) {
+    public void onShowAdPreference() {
+        if(mInterstitialAdSettings.isLoaded()){
+            mInterstitialAdSettings.show();
+        }
+    }
 
+    @Override
+    public long onAdd(TestCase testCase) {
+        if(testCase != null)
+        {
+            return mTestCaseDAO.insert(testCase);
+        }
+        return -1;
     }
 
     @Override
     public void onRemove(TestCase testCase) {
-
+        if(testCase != null)
+        {
+            mTestCaseDAO.delete(testCase);
+        }
     }
 
     @Override
     public void onEdit(TestCase testCase) {
+        if(testCase != null)
+        {
+            mTestCaseDAO.update(testCase);
+        }
+    }
 
+    @Override
+    public ar.org.fransis.radiustool.dao.TestCase getTestCaseDAO() {
+        return mTestCaseDAO;
     }
 
 }

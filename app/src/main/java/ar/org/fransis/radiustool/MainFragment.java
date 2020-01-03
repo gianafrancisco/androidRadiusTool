@@ -1,9 +1,7 @@
 package ar.org.fransis.radiustool;
 
-import androidx.room.Room;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,8 +9,6 @@ import android.preference.PreferenceManager;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AlertDialog;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -29,7 +25,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 import ar.org.fransis.radiustool.model.TestCase;
-import ar.org.fransis.radiustool.store.TestCaseDB;
 
 
 /**
@@ -69,10 +64,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
     private int normalTimeResponse = 0;
     private int highTimeResponse = 0;
 
-    private TestCaseDB db = null;
-    private ar.org.fransis.radiustool.dao.TestCase dao;
-
-
+    private ar.org.fransis.radiustool.dao.TestCase mTestCaseDAO;
 
     public MainFragment() {
         // Required empty public constructor
@@ -103,6 +95,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mTestCaseDAO = mListener.getTestCaseDAO();
     }
 
     @Override
@@ -126,11 +119,8 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
         icView = (ImageView) view.findViewById(R.id.image_response);
         pbar = (ProgressBar) view.findViewById(R.id.progress_auth);
 
-        db = Room.databaseBuilder(getActivity().getApplicationContext(),
-                TestCaseDB.class, "Testcase.db").allowMainThreadQueries().build();
-        dao = db.testCaseDao();
 
-        adapter = new ArrayAdapter<TestCase>(getActivity(), R.layout.support_simple_spinner_dropdown_item, dao.getAll());
+        adapter = new ArrayAdapter<TestCase>(getActivity(), R.layout.support_simple_spinner_dropdown_item, mTestCaseDAO.getAll());
 
         spinnerTestCase.setAdapter(adapter);
         spinnerTestCase.setOnItemSelectedListener(this);
@@ -240,9 +230,11 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-        void onAdd(TestCase testCase);
+        long onAdd(TestCase testCase);
         void onRemove(TestCase testCase);
         void onEdit(TestCase testCase);
+        ar.org.fransis.radiustool.dao.TestCase getTestCaseDAO();
+
     }
 
 
@@ -277,7 +269,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
                 public void onClick(DialogInterface dialog, int id) {
                     TestCase tc = (TestCase) spinnerTestCase.getSelectedItem();
                     if (tc != null) {
-                        dao.delete(tc);
+                        //mTestCaseDAO.delete(tc);
                         mListener.onRemove(tc);
                         adapter.remove(tc);
                         adapter.notifyDataSetChanged();
@@ -307,7 +299,6 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
             tc.setUserName(editUserName.getText().toString());
             tc.setUserPassword(editUserPassword.getText().toString());
 
-            dao.update(tc);
             mListener.onEdit(tc);
             adapter.notifyDataSetChanged();
             Toast.makeText(getActivity().getApplicationContext(), "Test case saved.", Toast.LENGTH_LONG).show();
@@ -327,8 +318,8 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
                     editUserPassword.getText().toString()
             );
 
-            tc.setId(dao.insert(tc));
-            mListener.onAdd(tc);
+            //tc.setId(mTestCaseDAO.insert(tc));
+            tc.setId(mListener.onAdd(tc));
             adapter.add(tc);
             adapter.notifyDataSetChanged();
             Toast.makeText(getActivity().getApplicationContext(), "Test case saved.", Toast.LENGTH_LONG).show();
