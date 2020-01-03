@@ -70,7 +70,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        //addPreferencesFromResource(R.xml.preferences);
+        addPreferencesFromResource(R.xml.preferences);
     }
 
     @Override
@@ -123,6 +123,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         // Load the preferences from an XML resource
         setPreferencesFromResource(R.xml.preferences, rootKey);
+        /*
         mInterstitialAd = new InterstitialAd(getActivity());
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_donation));
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
@@ -165,6 +166,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 startActivity(Intent.createChooser(sharingIntent, "Share via"));
                 return true;
             }
-        });
+        });*/
     }
 }
