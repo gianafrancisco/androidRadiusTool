@@ -1,7 +1,7 @@
 package ar.org.fransis.radiustool.store;
 
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.RoomDatabase;
+import androidx.room.Database;
+import androidx.room.RoomDatabase;
 
 import ar.org.fransis.radiustool.model.TestCase;
 
