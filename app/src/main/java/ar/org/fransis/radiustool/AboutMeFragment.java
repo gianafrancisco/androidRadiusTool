@@ -67,7 +67,6 @@ public class AboutMeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mListener.hideMenu();
         return inflater.inflate(R.layout.fragment_about_me, container, false);
     }
 
@@ -108,7 +107,6 @@ public class AboutMeFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-        void hideMenu();
     }
 
     @Override
