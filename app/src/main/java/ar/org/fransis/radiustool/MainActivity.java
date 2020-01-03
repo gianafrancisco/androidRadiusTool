@@ -2,57 +2,40 @@ package ar.org.fransis.radiustool;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.vorlonsoft.android.rate.AppRate;
 
-import android.arch.persistence.room.Room;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
+
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import ar.org.fransis.radiustool.model.TestCase;
 import ar.org.fransis.radiustool.store.TestCaseDB;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private EditText editName = null;
-    private EditText editAddress = null;
-    private EditText editAuthPort = null;
-    private EditText editSecret = null;
-    private EditText editUserName = null;
-    private EditText editUserPassword = null;
-    private Button buttonAuth = null;
-    private TextView textResponse = null;
-    private TextView textResponseTime = null;
-    private TextView textReplyMessage = null;
-    private ar.org.fransis.radiustool.dao.TestCase dao;
-    private Spinner spinnerTestCase = null;
-    private ArrayAdapter<TestCase> adapter = null;
-    private ImageView icView = null;
-    private ProgressBar pbar = null;
-    private int normalTimeResponse = 0;
-    private int highTimeResponse = 0;
-    private TestCaseDB db = null;
+public class MainActivity extends AppCompatActivity
+        implements MainFragment.OnFragmentInteractionListener,
+            AboutMeFragment.OnFragmentInteractionListener,
+            SettingsFragment.OnFragmentInteractionListener {
 
+    public static final String LOG_ADS_TAG = "Ads";
     private InterstitialAd mInterstitialAd;
+    private InterstitialAd mInterstitialAdPreference;
+    private MainFragment mMainFragment;
+    private SettingsFragment mSettingsFragment;
+    private AboutMeFragment mAboutMeFragment;
+    private TestCaseDB mDatabase = null;
+    private ar.org.fransis.radiustool.dao.TestCase mTestCaseDAO;
 
 
     @Override
@@ -62,29 +45,85 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_unit_id));
 
+        mInterstitialAdPreference = new InterstitialAd(this);
+        mInterstitialAdPreference.setAdUnitId(getResources().getString(R.string.interstitial_ad_donation));
+
         //if(AdSingleton.getInstance().isShowStartUpAd() == true){
-            mInterstitialAd.loadAd(new AdRequest.Builder()
-                    //.addTestDevice("9B75E357FEC4150DBD2350B1A0A6E908")
-                    .build());
+        mInterstitialAd.loadAd(new AdRequest.Builder()
+                //.addTestDevice("9B75E357FEC4150DBD2350B1A0A6E908")
+                .build());
 
-            mInterstitialAd.setAdListener(new AdListener() {
-                /*@Override
-                public void onAdLoaded() {
-                    // Code to be executed when an ad finishes loading.
-                    mInterstitialAd.show();
-                    AdSingleton.getInstance().setShowStartUpAd(false);
-                }*/
+        mInterstitialAd.setAdListener(new AdListener() {
 
-                @Override
-                public void onAdClosed() {
-                    mInterstitialAd.loadAd(new AdRequest.Builder()
-                            //.addTestDevice("9B75E357FEC4150DBD2350B1A0A6E908")
-                            .build());
-                }
-            });
+            @Override
+            public void onAdFailedToLoad(int i) {
+                Log.d("Ads", "mInterstitialAd onAdFailedToLoad " + i);
+            }
+
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+                //mInterstitialAd.show();
+                //AdSingleton.getInstance().setShowStartUpAd(false);
+                Log.d("Ads", "mInterstitialAd Loaded");
+            }
+
+            @Override
+            public void onAdClosed() {
+                Log.d("Ads", "mInterstitialAd AdClosed");
+                mInterstitialAd.loadAd(new AdRequest.Builder()
+                        //.addTestDevice("9B75E357FEC4150DBD2350B1A0A6E908")
+                        .build());
+            }
+        });
         //}
 
+        mInterstitialAdPreference.loadAd(new AdRequest.Builder().build());
+        final Activity activity = this;
+        mInterstitialAdPreference.setAdListener(new AdListener()
+        {
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                Log.d("Ads", "mInterstitialAdPreference onAdFailedToLoad " + i);
+            }
+
+            @Override
+            public void onAdLoaded() {
+                Log.d("Ads", "mInterstitialAdPreference Loaded");
+                //super.onAdLoaded();
+            }
+
+            @Override
+            public void onAdClosed(){
+                mInterstitialAdPreference.loadAd(new AdRequest.Builder().build());
+                Log.d(LOG_ADS_TAG, "mInterstitialAdPreference AdClosed");
+                Toast.makeText(activity, getString(R.string.pref_gracias_platita), Toast.LENGTH_SHORT).show();
+                activity.onBackPressed();
+            }
+
+        });
+
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
+        setContentView(R.layout.activity_main);
+
+        // Load an ad into the AdMob banner view.
+
+        mDatabase = Room.databaseBuilder(this.getApplicationContext(),
+                TestCaseDB.class, "Testcase.db").allowMainThreadQueries().build();
+        mTestCaseDAO = mDatabase.testCaseDao();
+
+        /*
+        AdRequest adRequest = new AdRequest.Builder()
+                .setRequestAgent("android_studio:ad_template").build();
+        */
+        mMainFragment = MainFragment.newInstance("","");
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.fragment_container, mMainFragment);
+        fragmentTransaction.commit();
+
         AppRate.with(this)
                 .setInstallDays((byte) 0)                  // default is 10, 0 means install day, 10 means app is launched 10 or more days later than installation
                 .setLaunchTimes((byte) 5)                  // default is 10, 3 means app is launched 3 or more times
@@ -101,162 +140,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 .monitor();                                // Monitors the app launch times
         AppRate.showRateDialogIfMeetsConditions(this); // Shows the Rate Dialog when conditions are met
 
-        setTheme(R.style.AppTheme);
-        setContentView(R.layout.activity_main);
-
-
-        // Load an ad into the AdMob banner view.
-        AdView adView = (AdView) findViewById(R.id.adView);
-
-        AdRequest adRequest = new AdRequest.Builder()
-                //.addTestDevice("9B75E357FEC4150DBD2350B1A0A6E908")
-                .build();
-        adView.loadAd(adRequest);
-
-
-
-        /*
-        AdRequest adRequest = new AdRequest.Builder()
-                .setRequestAgent("android_studio:ad_template").build();
-        */
-
-
-        db = Room.databaseBuilder(getApplicationContext(),
-                TestCaseDB.class, "Testcase.db").allowMainThreadQueries().build();
-
-        dao = db.testCaseDao();
-
-        editName = (EditText) findViewById(R.id.text_server_name);
-        editAddress = (EditText) findViewById(R.id.text_radius_ip_address);
-        editAuthPort = (EditText) findViewById(R.id.text_radius_auth_port);
-        editSecret = (EditText) findViewById(R.id.text_radius_secret);
-        editUserName = (EditText) findViewById(R.id.text_radius_username);
-        editUserPassword = (EditText) findViewById(R.id.text_radius_password);
-        textResponse = (TextView) findViewById(R.id.text_radius_response);
-        textResponseTime = (TextView) findViewById(R.id.text_time_response);
-        textReplyMessage = (TextView) findViewById(R.id.text_radius_reply_message);
-        spinnerTestCase = (Spinner)findViewById(R.id.list_test_cases);
-        icView = (ImageView) findViewById(R.id.image_response);
-        pbar = (ProgressBar) findViewById(R.id.progress_auth);
-
-        adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, dao.getAll());
-
-        spinnerTestCase.setAdapter(adapter);
-        spinnerTestCase.setOnItemSelectedListener(this);
-
-        loadPreferences();
-
-        buttonAuth = (Button) findViewById(R.id.button_auth);
-        buttonAuth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(AdSingleton.getInstance().showAd()){
-
-                    if (mInterstitialAd.isLoaded()) {
-                        mInterstitialAd.show();
-                    }
-
-                    /*mInterstitialAd.loadAd(new AdRequest.Builder()
-                            //.addTestDevice("9B75E357FEC4150DBD2350B1A0A6E908")
-                            .build());
-
-                    mInterstitialAd.setAdListener(new AdListener() {
-                        @Override
-                        public void onAdLoaded() {
-                            // Code to be executed when an ad finishes loading.
-                            mInterstitialAd.show();
-                        }
-                    });*/
-                }
-
-                new RadiusAsyncTask(
-                        getApplicationContext(),
-                        Integer.parseInt(editAuthPort.getText().toString()),
-                        editSecret.getText().toString(),
-                        editUserName.getText().toString(),
-                        editUserPassword.getText().toString(),
-                        textResponse,
-                        icView,
-                        pbar,
-                        textResponseTime,
-                        normalTimeResponse,
-                        highTimeResponse,
-                        editAddress.getText().toString(),
-                        textReplyMessage).execute();
-
-            }
-        });
     }
-
-    private void remove() {
-
-        TestCase tc = (TestCase) spinnerTestCase.getSelectedItem();
-        if(tc != null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-            builder.setTitle(R.string.remove_test_case);
-            builder.setMessage(R.string.message_remove_test);
-            builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    TestCase tc = (TestCase) spinnerTestCase.getSelectedItem();
-                    if (tc != null) {
-                        dao.delete(tc);
-                        adapter.remove(tc);
-                        adapter.notifyDataSetChanged();
-                        Toast.makeText(getApplicationContext(), "Test case removed.", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
-            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                }
-            });
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }else{
-            Toast.makeText(getApplicationContext(), "There is not test case selected.", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void edit() {
-        TestCase tc = (TestCase) spinnerTestCase.getSelectedItem();
-        if(tc !=null){
-            tc.setName(editName.getText().toString());
-            tc.setAddress(editAddress.getText().toString());
-            tc.setAuthPort(Integer.parseInt(editAuthPort.getText().toString()));
-            tc.setSecret(editSecret.getText().toString());
-            tc.setUserName(editUserName.getText().toString());
-            tc.setUserPassword(editUserPassword.getText().toString());
-
-            dao.update(tc);
-            adapter.notifyDataSetChanged();
-            Toast.makeText(getApplicationContext(), "Test case saved.", Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(getApplicationContext(), "There is not test case selected.", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void add() {
-        if(!"".equals(editName.getText().toString())){
-            TestCase tc = new TestCase(
-                    editName.getText().toString(),
-                    editAddress.getText().toString(),
-                    Integer.parseInt(editAuthPort.getText().toString()),
-                    editSecret.getText().toString(),
-                    editUserName.getText().toString(),
-                    editUserPassword.getText().toString()
-            );
-
-            tc.setId(dao.insert(tc));
-            adapter.add(tc);
-            adapter.notifyDataSetChanged();
-            Toast.makeText(getApplicationContext(), "Test case saved.", Toast.LENGTH_LONG).show();
-        }else {
-            Toast.makeText(getApplicationContext(), "Please, complete the test name first.", Toast.LENGTH_LONG).show();
-        }
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -272,65 +156,96 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()){
             case R.id.action_add:
-                add();
+                //add();
+                mMainFragment.add();
                 break;
             case R.id.action_edit:
-                edit();
+                //edit();
+                mMainFragment.edit();
                 break;
             case R.id.action_delete:
-                remove();
+                //remove();
+                mMainFragment.remove();
                 break;
             case R.id.action_about_me:
-                Intent aboutMe = new Intent(this, AboutMeActivity.class);
-                startActivity(aboutMe);
+                if(mAboutMeFragment == null)
+                {
+                    mAboutMeFragment = AboutMeFragment.newInstance("","");
+                }
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, mAboutMeFragment)
+                        .addToBackStack(null).commit();
                 break;
             case R.id.action_settings:
-                Intent settings = new Intent(this, SettingsActivity.class);
-                startActivity(settings);
+                if(mSettingsFragment == null)
+                {
+                    mSettingsFragment = SettingsFragment.newInstance();
+                }
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, mSettingsFragment)
+                        .addToBackStack(null).commit();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-
-    private void loadPreferences(){
-        TestCase tc = null;
-        if(spinnerTestCase != null){
-            tc = (TestCase) spinnerTestCase.getSelectedItem();
-            if(tc == null){
-                tc = new TestCase();
-            }
-            editName.setText(tc.getName());
-            editAddress.setText(tc.getAddress());
-            editAuthPort.setText(Integer.toString(tc.getAuthPort()));
-            editSecret.setText(tc.getSecret());
-            editUserName.setText(tc.getUserName());
-            editUserPassword.setText(tc.getUserPassword());
-        }
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        normalTimeResponse = Integer.parseInt(sp.getString("pref_normal_time_response","100"));
-        highTimeResponse = Integer.parseInt(sp.getString("pref_high_time_response","300"));
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        TestCase selected = (TestCase) adapterView.getItemAtPosition(i);
-        editName.setText(selected.getName());
-        editAddress.setText(selected.getAddress());
-        editAuthPort.setText(Integer.toString(selected.getAuthPort()));
-        editSecret.setText(selected.getSecret());
-        editUserName.setText(selected.getUserName());
-        editUserPassword.setText(selected.getUserPassword());
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
-
     @Override
     protected void onResume() {
-        loadPreferences();
+        //loadPreferences();
         super.onResume();
     }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onShowAdPreference() {
+        if(mInterstitialAdPreference.isLoaded()){
+            mInterstitialAdPreference.show();
+        }
+    }
+
+    @Override
+    public long onAdd(TestCase testCase) {
+        if(testCase != null)
+        {
+            return mTestCaseDAO.insert(testCase);
+        }
+        return -1;
+    }
+
+    @Override
+    public void onRemove(TestCase testCase) {
+        if(testCase != null)
+        {
+            mTestCaseDAO.delete(testCase);
+        }
+    }
+
+    @Override
+    public void onEdit(TestCase testCase) {
+        if(testCase != null)
+        {
+            mTestCaseDAO.update(testCase);
+        }
+    }
+
+    @Override
+    public ar.org.fransis.radiustool.dao.TestCase getTestCaseDAO() {
+        return mTestCaseDAO;
+    }
+
+    @Override
+    public void onShowAdMain() {
+        /*
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
+        */
+    }
+
 }
