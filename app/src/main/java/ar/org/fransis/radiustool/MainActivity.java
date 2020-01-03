@@ -10,7 +10,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.FragmentActivity;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -123,9 +125,8 @@ public class MainActivity extends AppCompatActivity
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, AboutMeFragment.newInstance("","")).addToBackStack(null).commit();
                 break;
             case R.id.action_settings:
-                Intent settings = new Intent(this, SettingsActivity.class);
-                startActivity(settings);
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, SettingsFragment.newInstance("","")).addToBackStack(null).commit();
+                //Intent settings = new Intent(this, SettingsActivity.class);
+                //startActivity(settings);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, SettingsFragment.newInstance("","")).addToBackStack(null).commit();
                 break;
         }

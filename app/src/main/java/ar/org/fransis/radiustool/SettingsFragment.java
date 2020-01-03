@@ -4,9 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.Preference;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,53 +70,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        addPreferencesFromResource(R.xml.preferences);
-
-        mInterstitialAd = new InterstitialAd(getActivity());
-        mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_donation));
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-        mInterstitialAd.setAdListener(new AdListener()
-        {
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-            }
-
-            @Override
-            public void onAdClosed(){
-                Toast.makeText(getActivity(), getString(R.string.pref_gracias_platita), Toast.LENGTH_SHORT).show();
-                getActivity().onBackPressed();
-            }
-
-        });
-
-        // Publicidad preference click listener
-        Preference myPrefPlatitaVieja = findPreference(getString(R.string.key_platita_vieja));
-        myPrefPlatitaVieja.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-
-                if(mInterstitialAd.isLoaded()){
-                    mInterstitialAd.show();
-                }
-                return true;
-            }
-        });
-
-        Preference pref_Compartir = (Preference) findPreference("pref_compartir");
-        pref_Compartir.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-                //open browser or intent here
-                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                sharingIntent.setType("text/plain");
-                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Simple Radius Test Tool");
-                sharingIntent.putExtra(Intent.EXTRA_TEXT,
-                        getString(R.string.share_the_app));
-                startActivity(Intent.createChooser(sharingIntent, "Share via"));
-                return true;
-            }
-        });
-
-
+        //addPreferencesFromResource(R.xml.preferences);
     }
 
     /*
@@ -165,5 +118,54 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        // Load the preferences from an XML resource
+        setPreferencesFromResource(R.xml.preferences, rootKey);
+        mInterstitialAd = new InterstitialAd(getActivity());
+        mInterstitialAd.setAdUnitId(getResources().getString(R.string.interstitial_ad_donation));
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        mInterstitialAd.setAdListener(new AdListener()
+        {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+            }
+
+            @Override
+            public void onAdClosed(){
+                Toast.makeText(getActivity(), getString(R.string.pref_gracias_platita), Toast.LENGTH_SHORT).show();
+                getActivity().onBackPressed();
+            }
+
+        });
+
+        // Publicidad preference click listener
+        Preference myPrefPlatitaVieja = findPreference(getString(R.string.key_platita_vieja));
+        myPrefPlatitaVieja.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+
+                if(mInterstitialAd.isLoaded()){
+                    mInterstitialAd.show();
+                }
+                return true;
+            }
+        });
+
+        Preference pref_Compartir = (Preference) findPreference("pref_compartir");
+        pref_Compartir.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                //open browser or intent here
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Simple Radius Test Tool");
+                sharingIntent.putExtra(Intent.EXTRA_TEXT,
+                        getString(R.string.share_the_app));
+                startActivity(Intent.createChooser(sharingIntent, "Share via"));
+                return true;
+            }
+        });
     }
 }
