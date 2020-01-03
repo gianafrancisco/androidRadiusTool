@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -52,15 +53,17 @@ public class MainActivity extends AppCompatActivity
                 .build());
 
         mInterstitialAd.setAdListener(new AdListener() {
-                /*@Override
-                public void onAdLoaded() {
-                    // Code to be executed when an ad finishes loading.
-                    mInterstitialAd.show();
-                    AdSingleton.getInstance().setShowStartUpAd(false);
-                }*/
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+                //mInterstitialAd.show();
+                //AdSingleton.getInstance().setShowStartUpAd(false);
+                Log.d("Ad", "mInterstitialAd Loaded");
+            }
 
             @Override
             public void onAdClosed() {
+                Log.d("Ad", "mInterstitialAd AdClosed");
                 mInterstitialAd.loadAd(new AdRequest.Builder()
                         //.addTestDevice("9B75E357FEC4150DBD2350B1A0A6E908")
                         .build());
@@ -74,11 +77,14 @@ public class MainActivity extends AppCompatActivity
         {
             @Override
             public void onAdLoaded() {
-                super.onAdLoaded();
+                Log.d("Ad", "mInterstitialAdSettings Loaded");
+                //super.onAdLoaded();
             }
 
             @Override
             public void onAdClosed(){
+                mInterstitialAdSettings.loadAd(new AdRequest.Builder().build());
+                Log.d("Ad", "mInterstitialAdSettings AdClosed");
                 Toast.makeText(activity, getString(R.string.pref_gracias_platita), Toast.LENGTH_SHORT).show();
                 activity.onBackPressed();
             }
@@ -222,6 +228,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public ar.org.fransis.radiustool.dao.TestCase getTestCaseDAO() {
         return mTestCaseDAO;
+    }
+
+    @Override
+    public void onShowAdMain() {
+        /*
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
+        */
     }
 
 }
