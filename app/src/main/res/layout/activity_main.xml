@@ -1,4 +1,4 @@
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,12 +6,39 @@
     android:layout_height="match_parent"
     android:paddingLeft="5dp"
     android:paddingRight="5dp"
+    android:orientation="vertical"
     tools:context="ar.org.fransis.radiustool.MainActivity">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/fragment_container">
 
-    </FrameLayout>
-</ScrollView>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:text="@string/tab_radius"/>
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:text="@string/tab_history"/>
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:text="@string/tab_details"/>
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:text="@string/tab_about_me"/>
+            </com.google.android.material.tabs.TabLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/fragment_container">
+        </FrameLayout>
+</LinearLayout>

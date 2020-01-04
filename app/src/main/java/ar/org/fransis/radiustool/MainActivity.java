@@ -4,9 +4,11 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.material.tabs.TabLayout;
 import com.vorlonsoft.android.rate.AppRate;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
@@ -19,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import ar.org.fransis.radiustool.dummy.DummyContent;
 import ar.org.fransis.radiustool.model.TestCase;
 import ar.org.fransis.radiustool.store.TestCaseDB;
 
@@ -26,7 +29,8 @@ import ar.org.fransis.radiustool.store.TestCaseDB;
 public class MainActivity extends AppCompatActivity
         implements MainFragment.OnFragmentInteractionListener,
             AboutMeFragment.OnFragmentInteractionListener,
-            SettingsFragment.OnFragmentInteractionListener {
+            SettingsFragment.OnFragmentInteractionListener,
+            ItemFragment.OnListFragmentInteractionListener {
 
     public static final String LOG_ADS_TAG = "Ads";
     private InterstitialAd mInterstitialAd;
@@ -34,8 +38,10 @@ public class MainActivity extends AppCompatActivity
     private MainFragment mMainFragment;
     private SettingsFragment mSettingsFragment;
     private AboutMeFragment mAboutMeFragment;
+    private ItemFragment mItemFragment;
     private TestCaseDB mDatabase = null;
     private ar.org.fransis.radiustool.dao.TestCase mTestCaseDAO;
+    private TabLayout mTab;
 
 
     @Override
@@ -107,7 +113,36 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
+        mTab = (TabLayout) findViewById(R.id.tab_layout);
+        mTab.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition())
+                {
+                    case 0:
+                        openRadius();
+                        break;
+                    case 1:
+                        openList();
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        openAboutMe();
+                        break;
+                }
+            }
 
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
         // Load an ad into the AdMob banner view.
 
         mDatabase = Room.databaseBuilder(this.getApplicationContext(),
@@ -168,27 +203,57 @@ public class MainActivity extends AppCompatActivity
                 mMainFragment.remove();
                 break;
             case R.id.action_about_me:
-                if(mAboutMeFragment == null)
-                {
-                    mAboutMeFragment = AboutMeFragment.newInstance("","");
-                }
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, mAboutMeFragment)
-                        .addToBackStack(null).commit();
+                openAboutMe();
                 break;
             case R.id.action_settings:
-                if(mSettingsFragment == null)
-                {
-                    mSettingsFragment = SettingsFragment.newInstance();
-                }
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, mSettingsFragment)
-                        .addToBackStack(null).commit();
+                openPreferences();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openPreferences() {
+        if(mSettingsFragment == null)
+        {
+            mSettingsFragment = SettingsFragment.newInstance();
+        }
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, mSettingsFragment)
+                .addToBackStack(null).commit();
+    }
+
+    private void openAboutMe() {
+        if(mAboutMeFragment == null)
+        {
+            mAboutMeFragment = AboutMeFragment.newInstance("","");
+        }
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, mAboutMeFragment)
+                .addToBackStack(null).commit();
+    }
+
+    private void openRadius() {
+        if(mMainFragment == null)
+        {
+            mMainFragment = MainFragment.newInstance("","");
+        }
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, mMainFragment)
+                .addToBackStack(null).commit();
+    }
+
+    private void openList() {
+        if(mItemFragment == null)
+        {
+            mItemFragment = ItemFragment.newInstance(0);
+        }
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, mItemFragment)
+                .addToBackStack(null).commit();
     }
 
     @Override
@@ -248,4 +313,8 @@ public class MainActivity extends AppCompatActivity
         */
     }
 
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+
+    }
 }
