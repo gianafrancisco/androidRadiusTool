@@ -69,5 +69,6 @@
     <string name="tab_history">History</string>
     <string name="tab_details">Details</string>
     <string name="tab_about_me">About Me</string>
+    <string name="tab_preferences">Preferences</string>
 
 </resources>

@@ -9,36 +9,48 @@
     android:orientation="vertical"
     tools:context="ar.org.fransis.radiustool.MainActivity">
 
+        <androidx.viewpager.widget.ViewPager
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent">
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_height="match_parent"
-                android:layout_width="wrap_content"
-                android:text="@string/tab_radius"/>
+                <com.google.android.material.tabs.TabItem
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:text="@string/tab_radius"/>
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_height="match_parent"
-                android:layout_width="wrap_content"
-                android:text="@string/tab_history"/>
+                <com.google.android.material.tabs.TabItem
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:text="@string/tab_history"/>
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_height="match_parent"
-                android:layout_width="wrap_content"
-                android:text="@string/tab_details"/>
+                <com.google.android.material.tabs.TabItem
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:text="@string/tab_details"/>
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_height="match_parent"
-                android:layout_width="wrap_content"
-                android:text="@string/tab_about_me"/>
+                <com.google.android.material.tabs.TabItem
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:text="@string/tab_about_me"/>
+                <com.google.android.material.tabs.TabItem
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:text="@string/tab_preferences"/>
             </com.google.android.material.tabs.TabLayout>
 
+        </androidx.viewpager.widget.ViewPager>
+        <!--
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/fragment_container">
         </FrameLayout>
+        -->
 </LinearLayout>

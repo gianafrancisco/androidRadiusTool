@@ -5,6 +5,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.tabs.TabLayout;
+import androidx.viewpager.widget.ViewPager;
 import com.vorlonsoft.android.rate.AppRate;
 
 import android.app.Activity;
@@ -25,6 +26,19 @@ import ar.org.fransis.radiustool.dummy.DummyContent;
 import ar.org.fransis.radiustool.model.TestCase;
 import ar.org.fransis.radiustool.store.TestCaseDB;
 
+enum TAB 
+{
+    RADIUS(0),
+    RESULTS(1),
+    DETAILS(2),
+    ABOUT(3),
+    PREFERENCE(4);
+    public final int value;
+    private TAB(final int val)
+    {
+        this.value = val;
+    }
+}
 
 public class MainActivity extends AppCompatActivity
         implements MainFragment.OnFragmentInteractionListener,
@@ -42,6 +56,8 @@ public class MainActivity extends AppCompatActivity
     private TestCaseDB mDatabase = null;
     private ar.org.fransis.radiustool.dao.TestCase mTestCaseDAO;
     private TabLayout mTab;
+    private PagerAdapter mPagerAdapter;
+    private ViewPager mViewPager;
 
 
     @Override
@@ -114,6 +130,7 @@ public class MainActivity extends AppCompatActivity
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
         mTab = (TabLayout) findViewById(R.id.tab_layout);
+        /*
         mTab.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -143,6 +160,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+        */
         // Load an ad into the AdMob banner view.
 
         mDatabase = Room.databaseBuilder(this.getApplicationContext(),
@@ -153,12 +171,17 @@ public class MainActivity extends AppCompatActivity
         AdRequest adRequest = new AdRequest.Builder()
                 .setRequestAgent("android_studio:ad_template").build();
         */
+        mPagerAdapter = new PagerAdapter( getSupportFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mPagerAdapter);
+        mTab.setupWithViewPager(mViewPager);
+/*
         mMainFragment = MainFragment.newInstance("","");
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, mMainFragment);
         fragmentTransaction.commit();
-
+*/
         AppRate.with(this)
                 .setInstallDays((byte) 0)                  // default is 10, 0 means install day, 10 means app is launched 10 or more days later than installation
                 .setLaunchTimes((byte) 5)                  // default is 10, 3 means app is launched 3 or more times
@@ -213,6 +236,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void openPreferences() {
+        mViewPager.setCurrentItem(TAB.PREFERENCE.value);
+        /*
         if(mSettingsFragment == null)
         {
             mSettingsFragment = SettingsFragment.newInstance();
@@ -221,9 +246,12 @@ public class MainActivity extends AppCompatActivity
                 .beginTransaction()
                 .replace(R.id.fragment_container, mSettingsFragment)
                 .addToBackStack(null).commit();
+        */
     }
 
     private void openAboutMe() {
+        mViewPager.setCurrentItem(TAB.ABOUT.value);
+        /*
         if(mAboutMeFragment == null)
         {
             mAboutMeFragment = AboutMeFragment.newInstance("","");
@@ -232,9 +260,12 @@ public class MainActivity extends AppCompatActivity
                 .beginTransaction()
                 .replace(R.id.fragment_container, mAboutMeFragment)
                 .addToBackStack(null).commit();
+        */
     }
 
     private void openRadius() {
+        mViewPager.setCurrentItem(TAB.RADIUS.value);
+        /*
         if(mMainFragment == null)
         {
             mMainFragment = MainFragment.newInstance("","");
@@ -243,9 +274,12 @@ public class MainActivity extends AppCompatActivity
                 .beginTransaction()
                 .replace(R.id.fragment_container, mMainFragment)
                 .addToBackStack(null).commit();
+        */
     }
 
     private void openList() {
+        mViewPager.setCurrentItem(TAB.RESULTS.value);
+        /*
         if(mItemFragment == null)
         {
             mItemFragment = ItemFragment.newInstance(0);
@@ -254,6 +288,7 @@ public class MainActivity extends AppCompatActivity
                 .beginTransaction()
                 .replace(R.id.fragment_container, mItemFragment)
                 .addToBackStack(null).commit();
+        */
     }
 
     @Override
