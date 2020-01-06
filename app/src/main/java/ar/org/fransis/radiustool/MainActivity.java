@@ -9,11 +9,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.vorlonsoft.android.rate.AppRate;
 
 import android.app.Activity;
-import android.content.ClipData;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
@@ -26,25 +23,13 @@ import ar.org.fransis.radiustool.dummy.DummyContent;
 import ar.org.fransis.radiustool.model.TestCase;
 import ar.org.fransis.radiustool.store.TestCaseDB;
 
-enum TAB 
-{
-    RADIUS(0),
-    RESULTS(1),
-    DETAILS(2),
-    ABOUT(3),
-    PREFERENCE(4);
-    public final int value;
-    private TAB(final int val)
-    {
-        this.value = val;
-    }
-}
 
 public class MainActivity extends AppCompatActivity
         implements MainFragment.OnFragmentInteractionListener,
             AboutMeFragment.OnFragmentInteractionListener,
             SettingsFragment.OnFragmentInteractionListener,
-            ItemFragment.OnListFragmentInteractionListener {
+            ItemFragment.OnListFragmentInteractionListener,
+            DetailsFragment.OnFragmentInteractionListener {
 
     public static final String LOG_ADS_TAG = "Ads";
     private InterstitialAd mInterstitialAd;
@@ -175,6 +160,9 @@ public class MainActivity extends AppCompatActivity
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mPagerAdapter);
         mTab.setupWithViewPager(mViewPager);
+        mTab.setTabMode(TabLayout.MODE_SCROLLABLE);
+
+        mMainFragment = (MainFragment) mPagerAdapter.getItem(Tab.RADIUS.value);
 /*
         mMainFragment = MainFragment.newInstance("","");
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -236,7 +224,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void openPreferences() {
-        mViewPager.setCurrentItem(TAB.PREFERENCE.value);
+        mViewPager.setCurrentItem(Tab.PREFERENCE.value);
         /*
         if(mSettingsFragment == null)
         {
@@ -250,7 +238,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void openAboutMe() {
-        mViewPager.setCurrentItem(TAB.ABOUT.value);
+        mViewPager.setCurrentItem(Tab.ABOUT.value);
         /*
         if(mAboutMeFragment == null)
         {
@@ -264,7 +252,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void openRadius() {
-        mViewPager.setCurrentItem(TAB.RADIUS.value);
+        mViewPager.setCurrentItem(Tab.RADIUS.value);
         /*
         if(mMainFragment == null)
         {
@@ -278,7 +266,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void openList() {
-        mViewPager.setCurrentItem(TAB.RESULTS.value);
+        mViewPager.setCurrentItem(Tab.RESULTS.value);
         /*
         if(mItemFragment == null)
         {

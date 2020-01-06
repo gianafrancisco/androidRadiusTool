@@ -1,19 +1,22 @@
 package ar.org.fransis.radiustool;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 
 public class PagerAdapter extends FragmentPagerAdapter
 {
-        private List<Fragment> mList;
+        private HashMap<Integer,Fragment> mMap;
 
         static final int NUM_ITEMS = 5;
         public PagerAdapter(FragmentManager fm) {
             super(fm);
-            mList = new ArrayList<Fragment>();
+            mMap = new HashMap<>();
         }
 
         @Override
@@ -23,28 +26,48 @@ public class PagerAdapter extends FragmentPagerAdapter
 
         @Override
         public Fragment getItem(int position) {
-            Fragment fragment = mList.get(position);
+            Fragment fragment = mMap.get(position);
             if(fragment == null)
             {
-                switch(position)
+                if(position == Tab.RADIUS.value)
                 {
-                    case 0:
-                        fragment = MainFragment.newInstance("","");
-                        break;
-                    case 1:
-                        fragment = ItemFragment.newInstance(0);
-                        break;
-                    case 2:
-                        fragment = ItemFragment.newInstance(0);
-                        break;
-                    case 3:
-                        fragment = AboutMeFragment.newInstance("","");
-                        break;
-                    case 4:
-                        fragment = SettingsFragment.newInstance();
-                        break;
+                    fragment = MainFragment.newInstance("","");
+                }
+                else if(position == Tab.DETAILS.value) {
+                    fragment = DetailsFragment.newInstance("","");
+                }
+                else if(position == Tab.RESULTS.value) {
+                    fragment = ItemFragment.newInstance(0);
+                }
+                else if(position == Tab.ABOUT.value) {
+                    fragment = AboutMeFragment.newInstance("","");
+                }
+                else if(position == Tab.PREFERENCE.value) {
+                    fragment = SettingsFragment.newInstance();
                 }
             }
-            return null;
+            return fragment;
         }
+
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        if(position == Tab.RADIUS.value)
+        {
+            return Tab.RADIUS.title;
+        }
+        else if(position == Tab.DETAILS.value) {
+            return Tab.DETAILS.title;
+        }
+        else if(position == Tab.RESULTS.value) {
+            return Tab.RESULTS.title;
+        }
+        else if(position == Tab.ABOUT.value) {
+            return Tab.ABOUT.title;
+        }
+        else if(position == Tab.PREFERENCE.value) {
+            return Tab.PREFERENCE.title;
+        }
+        return super.getPageTitle(position);
+    }
 }

@@ -24,7 +24,7 @@
                     android:layout_height="match_parent"
                     android:layout_width="wrap_content"
                     android:text="@string/tab_radius"/>
-
+<!--
                 <com.google.android.material.tabs.TabItem
                     android:layout_height="match_parent"
                     android:layout_width="wrap_content"
@@ -43,6 +43,7 @@
                     android:layout_height="match_parent"
                     android:layout_width="wrap_content"
                     android:text="@string/tab_preferences"/>
+-->
             </com.google.android.material.tabs.TabLayout>
 
         </androidx.viewpager.widget.ViewPager>
