@@ -41,7 +41,7 @@ public class RadiusAsyncTask extends AsyncTask<Void, Void, HashMap<Integer, Stri
     private Context context = null;
     MainFragment.OnFragmentInteractionListener mListener;
     private TestCase mTestCase = null;
-
+/*
     public RadiusAsyncTask(Context context, int authPort, String secret, String userName, String userPassword, TextView textResponse, ImageView icView, ProgressBar pbar, TextView responseTime, int normalTime, int highTime, String address, TextView textReplyMessage, MainFragment.OnFragmentInteractionListener listener) {
         this.address = address;
         this.authPort = authPort;
@@ -64,7 +64,25 @@ public class RadiusAsyncTask extends AsyncTask<Void, Void, HashMap<Integer, Stri
         this.mTestCase.setUserName(userName);
         this.mTestCase.setUserPassword(userPassword);
         this.mTestCase.setName("TEST");
+    }
+*/
+    public RadiusAsyncTask(TextView textResponse, TextView textResponseTime, TextView textReplyMessage, ImageView icView, ProgressBar pbar, int normalTime, int highTime, Context context, MainFragment.OnFragmentInteractionListener mListener, TestCase mTestCase) {
+        this.textResponse = textResponse;
+        this.textResponseTime = textResponseTime;
+        this.textReplyMessage = textReplyMessage;
+        this.icView = icView;
+        this.pbar = pbar;
+        this.normalTime = normalTime;
+        this.highTime = highTime;
+        this.context = context;
+        this.mListener = mListener;
+        this.mTestCase = mTestCase;
 
+        this.address = mTestCase.getAddress();
+        this.authPort = mTestCase.getAuthPort();
+        this.userName = mTestCase.getUserName();
+        this.userPassword = mTestCase.getUserPassword();
+        this.secret = mTestCase.getSecret();
     }
 
     @Override

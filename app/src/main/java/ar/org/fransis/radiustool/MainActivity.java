@@ -207,15 +207,12 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()){
             case R.id.action_add:
-                //add();
                 mMainFragment.add();
                 break;
             case R.id.action_edit:
-                //edit();
                 mMainFragment.edit();
                 break;
             case R.id.action_delete:
-                //remove();
                 mMainFragment.remove();
                 break;
             case R.id.action_about_me:
@@ -230,58 +227,18 @@ public class MainActivity extends AppCompatActivity
 
     private void openPreferences() {
         mViewPager.setCurrentItem(Tab.PREFERENCE.value);
-        /*
-        if(mSettingsFragment == null)
-        {
-            mSettingsFragment = SettingsFragment.newInstance();
-        }
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, mSettingsFragment)
-                .addToBackStack(null).commit();
-        */
     }
 
     private void openAboutMe() {
         mViewPager.setCurrentItem(Tab.ABOUT.value);
-        /*
-        if(mAboutMeFragment == null)
-        {
-            mAboutMeFragment = AboutMeFragment.newInstance("","");
-        }
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, mAboutMeFragment)
-                .addToBackStack(null).commit();
-        */
     }
 
     private void openRadius() {
         mViewPager.setCurrentItem(Tab.RADIUS.value);
-        /*
-        if(mMainFragment == null)
-        {
-            mMainFragment = MainFragment.newInstance("","");
-        }
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, mMainFragment)
-                .addToBackStack(null).commit();
-        */
     }
 
     private void openList() {
         mViewPager.setCurrentItem(Tab.RESULTS.value);
-        /*
-        if(mItemFragment == null)
-        {
-            mItemFragment = ItemFragment.newInstance(0);
-        }
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, mItemFragment)
-                .addToBackStack(null).commit();
-        */
     }
 
     @Override

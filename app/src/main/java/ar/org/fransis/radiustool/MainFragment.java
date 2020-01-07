@@ -123,12 +123,33 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
 
         buttonAuth = (Button) view.findViewById(R.id.button_auth);
         buttonAuth.setOnClickListener(new View.OnClickListener() {
+            private TestCase mTestCase;
             @Override
             public void onClick(View view) {
                 if(AdSingleton.getInstance().showAd()){
                     mListener.onShowAdMain();
                 }
 
+                this.mTestCase = new TestCase();
+                this.mTestCase.setAddress(editAddress.getText().toString());
+                this.mTestCase.setAuthPort(Integer.parseInt(editAuthPort.getText().toString()));
+                this.mTestCase.setSecret(editSecret.getText().toString());
+                this.mTestCase.setUserName(editUserName.getText().toString());
+                this.mTestCase.setUserPassword(editUserPassword.getText().toString());
+                this.mTestCase.setName(editName.getText().toString());
+
+                new RadiusAsyncTask(
+                        textResponse,
+                        textResponseTime,
+                        textReplyMessage,
+                        icView,
+                        pbar,
+                        normalTimeResponse,
+                        highTimeResponse,
+                        getActivity().getApplicationContext(),
+                        mListener,
+                        this.mTestCase).execute();
+                /*
                 new RadiusAsyncTask(
                         getActivity().getApplicationContext(),
                         Integer.parseInt(editAuthPort.getText().toString()),
@@ -144,6 +165,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
                         editAddress.getText().toString(),
                         textReplyMessage,
                         mListener).execute();
+                 */
 
             }
         });
