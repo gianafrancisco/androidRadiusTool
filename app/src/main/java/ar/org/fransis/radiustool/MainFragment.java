@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import ar.org.fransis.radiustool.model.Result;
 import ar.org.fransis.radiustool.model.TestCase;
 
 public class MainFragment extends Fragment implements AdapterView.OnItemSelectedListener {
@@ -141,7 +142,8 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
                         normalTimeResponse,
                         highTimeResponse,
                         editAddress.getText().toString(),
-                        textReplyMessage).execute();
+                        textReplyMessage,
+                        mListener).execute();
 
             }
         });
@@ -206,6 +208,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
         void onEdit(TestCase testCase);
         ar.org.fransis.radiustool.dao.TestCase getTestCaseDAO();
         void onShowAdMain();
+        void onTestCompleted(Result result);
 
     }
 

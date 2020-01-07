@@ -19,7 +19,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import ar.org.fransis.radiustool.dummy.DummyContent;
+import java.util.ArrayList;
+import java.util.List;
+
+import ar.org.fransis.radiustool.model.Result;
 import ar.org.fransis.radiustool.model.TestCase;
 import ar.org.fransis.radiustool.store.TestCaseDB;
 
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity
     private TabLayout mTab;
     private PagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
+    private List<Result> mResults;
 
 
     @Override
@@ -161,6 +165,7 @@ public class MainActivity extends AppCompatActivity
         mViewPager.setAdapter(mPagerAdapter);
         mTab.setupWithViewPager(mViewPager);
         mTab.setTabMode(TabLayout.MODE_SCROLLABLE);
+        mResults = new ArrayList<>();
 
         mMainFragment = (MainFragment) mPagerAdapter.getItem(Tab.RADIUS.value);
 /*
@@ -337,7 +342,17 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onTestCompleted(Result result) {
+        mResults.add(result);
+    }
 
+    @Override
+    public void onListFragmentInteraction(Result item) {
+
+    }
+
+    @Override
+    public List<Result> getResults() {
+        return mResults;
     }
 }

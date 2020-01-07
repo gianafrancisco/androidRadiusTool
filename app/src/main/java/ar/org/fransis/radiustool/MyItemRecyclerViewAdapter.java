@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import ar.org.fransis.radiustool.ItemFragment.OnListFragmentInteractionListener;
 import ar.org.fransis.radiustool.dummy.DummyContent.DummyItem;
+import ar.org.fransis.radiustool.model.Result;
 
 import java.util.List;
 
@@ -19,10 +20,10 @@ import java.util.List;
  */
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<Result> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyItemRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyItemRecyclerViewAdapter(List<Result> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -37,10 +38,10 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mReplyMessageView.setText(mValues.get(position).content);
-        holder.mTestNameView.setText(mValues.get(position).name);
-        holder.mTimeOutView.setText(mValues.get(position).timeout + " ms");
+        holder.mIdView.setText(mValues.get(position).getId() + ".");
+        holder.mReplyMessageView.setText(mValues.get(position).getResponseType());
+        holder.mTestNameView.setText(mValues.get(position).getTestName());
+        holder.mTimeOutView.setText(mValues.get(position).getResponseTime() + " ms");
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +66,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         public final TextView mReplyMessageView;
         public final TextView mTimeOutView;
         public final TextView mTestNameView;
-        public DummyItem mItem;
+        public Result mItem;
 
         public ViewHolder(View view) {
             super(view);

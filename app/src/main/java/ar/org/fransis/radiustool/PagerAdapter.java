@@ -45,6 +45,7 @@ public class PagerAdapter extends FragmentPagerAdapter
                 else if(position == Tab.PREFERENCE.value) {
                     fragment = SettingsFragment.newInstance();
                 }
+                mMap.put(position, fragment);
             }
             return fragment;
         }

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import ar.org.fransis.radiustool.dummy.DummyContent;
 import ar.org.fransis.radiustool.dummy.DummyContent.DummyItem;
+import ar.org.fransis.radiustool.model.Result;
 
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class ItemFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(mListener.getResults(), mListener));
         }
         return view;
     }
@@ -106,6 +107,7 @@ public class ItemFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Result item);
+        List<Result> getResults();
     }
 }

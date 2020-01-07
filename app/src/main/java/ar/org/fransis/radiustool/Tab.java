@@ -3,8 +3,8 @@ package ar.org.fransis.radiustool;
 public enum Tab
 {
     RADIUS(0, "Radius"),
-    DETAILS(2, "Details"),
-    RESULTS(1, "Results"),
+    DETAILS(1, "Details"),
+    RESULTS(2, "Results"),
     ABOUT(3, "About Me"),
     PREFERENCE(4, "Preferences");
     public final int value;

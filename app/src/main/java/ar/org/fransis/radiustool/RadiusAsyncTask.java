@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import java.util.HashMap;
 
+import ar.org.fransis.radiustool.model.Result;
+import ar.org.fransis.radiustool.model.TestCase;
 import ar.org.fransis.radiustool.service.RadiusService;
 import ar.org.fransis.radiustool.service.RadiusServiceImpl;
 
@@ -37,8 +39,10 @@ public class RadiusAsyncTask extends AsyncTask<Void, Void, HashMap<Integer, Stri
     private int normalTime = 0;
     private int highTime = 0;
     private Context context = null;
+    MainFragment.OnFragmentInteractionListener mListener;
+    private TestCase mTestCase = null;
 
-    public RadiusAsyncTask(Context context, int authPort, String secret, String userName, String userPassword, TextView textResponse, ImageView icView, ProgressBar pbar, TextView responseTime, int normalTime, int highTime, String address, TextView textReplyMessage) {
+    public RadiusAsyncTask(Context context, int authPort, String secret, String userName, String userPassword, TextView textResponse, ImageView icView, ProgressBar pbar, TextView responseTime, int normalTime, int highTime, String address, TextView textReplyMessage, MainFragment.OnFragmentInteractionListener listener) {
         this.address = address;
         this.authPort = authPort;
         this.secret = secret;
@@ -52,6 +56,14 @@ public class RadiusAsyncTask extends AsyncTask<Void, Void, HashMap<Integer, Stri
         this.highTime = highTime;
         this.context = context;
         this.textReplyMessage = textReplyMessage;
+        this.mListener = listener;
+        this.mTestCase = new TestCase();
+        this.mTestCase.setAddress(address);
+        this.mTestCase.setAuthPort(authPort);
+        this.mTestCase.setSecret(secret);
+        this.mTestCase.setUserName(userName);
+        this.mTestCase.setUserPassword(userPassword);
+        this.mTestCase.setName("TEST");
 
     }
 
@@ -111,5 +123,7 @@ public class RadiusAsyncTask extends AsyncTask<Void, Void, HashMap<Integer, Stri
         pbar.setVisibility(View.GONE);
         icView.setVisibility(View.VISIBLE);
         textReplyMessage.setText(ret.get(REPLY_MESSAGE));
+
+        mListener.onTestCompleted(new Result(mTestCase, ret.get(REPLY_MESSAGE), ret.get(RESPONSE_TYPE), responseTime));
     }
 }
