@@ -56,8 +56,10 @@ public class RadiusServiceImpl implements RadiusService {
 
         } catch (RadiusException e) {
             response.put(RADIUS_EXCEPTION, e.getMessage());
+            response.put(257, ACCESS_REJECT);
         } catch (InvalidParameterException e) {
             response.put(RADIUS_EXCEPTION, e.getMessage());
+            response.put(257, ACCESS_REJECT);
         }
         return response;
     }
