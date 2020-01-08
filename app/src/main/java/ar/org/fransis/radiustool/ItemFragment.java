@@ -1,6 +1,7 @@
 package ar.org.fransis.radiustool;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,12 +9,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import ar.org.fransis.radiustool.dummy.DummyContent;
-import ar.org.fransis.radiustool.dummy.DummyContent.DummyItem;
 import ar.org.fransis.radiustool.model.Result;
 
 import java.util.List;
@@ -31,6 +31,8 @@ public class ItemFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private int normalTimeResponse = 0;
+    private int highTimeResponse = 0;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -63,6 +65,10 @@ public class ItemFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        normalTimeResponse = Integer.parseInt(sp.getString("pref_normal_time_response","100"));
+        highTimeResponse = Integer.parseInt(sp.getString("pref_high_time_response","300"));
+
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -72,7 +78,7 @@ public class ItemFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(mListener.getResults(), mListener));
+            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(mListener.getResults(), mListener, normalTimeResponse, highTimeResponse, getActivity().getApplicationContext()));
         }
         return view;
     }

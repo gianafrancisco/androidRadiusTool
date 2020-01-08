@@ -2,14 +2,17 @@ package ar.org.fransis.radiustool;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import ar.org.fransis.radiustool.ItemFragment.OnListFragmentInteractionListener;
 import ar.org.fransis.radiustool.dummy.DummyContent.DummyItem;
 import ar.org.fransis.radiustool.model.Result;
+import ar.org.fransis.radiustool.service.RadiusService;
 
 import java.util.List;
 
@@ -22,10 +25,16 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     private final List<Result> mValues;
     private final OnListFragmentInteractionListener mListener;
+    private int normalTimeResponse = 0;
+    private int highTimeResponse = 0;
+    private Context mContext;
 
-    public MyItemRecyclerViewAdapter(List<Result> items, OnListFragmentInteractionListener listener) {
+    public MyItemRecyclerViewAdapter(List<Result> items, OnListFragmentInteractionListener listener, int normalTimeResponse, int highTimeResponse, Context context) {
         mValues = items;
         mListener = listener;
+        this.normalTimeResponse = normalTimeResponse;
+        this.highTimeResponse = highTimeResponse;
+        this.mContext = context;
     }
 
     @Override
@@ -37,12 +46,31 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        long responseTime = mValues.get(position).getResponseTime();
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getId() + ".");
-        holder.mReplyMessageView.setText(mValues.get(position).getResponseType());
+        //holder.mIdView.setText(mValues.get(position).getId() + ".");
+        String responseType = mValues.get(position).getResponseType();
+        holder.mReplyMessageView.setText(responseType);
         holder.mTestNameView.setText(mValues.get(position).getTestName());
-        holder.mTimeOutView.setText(mValues.get(position).getResponseTime() + " ms");
+        holder.mTimeOutView.setText(responseTime + " ms");
 
+        holder.mTimeOutView.setTextColor(mContext.getResources().getColor(R.color.level_0_time_response));
+        if(responseTime > normalTimeResponse){
+            holder.mTimeOutView.setTextColor(mContext.getResources().getColor(R.color.level_1_time_response));
+        }
+        if(responseTime > highTimeResponse){
+            holder.mTimeOutView.setTextColor(mContext.getResources().getColor(R.color.level_2_time_response));
+        }
+        switch (responseType){
+            case RadiusService.ACCESS_ACCEPT:
+                holder.mImageView.setImageResource(R.drawable.ic_success);
+                break;
+            case RadiusService.ACCESS_REJECT:
+                holder.mImageView.setImageResource(R.drawable.ic_reject);
+                break;
+            default:
+                holder.mImageView.setImageResource(R.drawable.ic_timeout);
+        }
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,7 +90,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
+        public final ImageView mImageView;
+        public final TextView mIdView = null;
         public final TextView mReplyMessageView;
         public final TextView mTimeOutView;
         public final TextView mTestNameView;
@@ -71,10 +100,11 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
+            //mIdView = (TextView) view.findViewById(R.id.item_number);
             mReplyMessageView = (TextView) view.findViewById(R.id.item_reply_message);
             mTimeOutView = (TextView) view.findViewById(R.id.item_timeout);
             mTestNameView = (TextView) view.findViewById(R.id.item_test_name);
+            mImageView = (ImageView) view.findViewById(R.id.image_item_response);
         }
 
         @Override
