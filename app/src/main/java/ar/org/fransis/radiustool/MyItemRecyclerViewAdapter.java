@@ -10,17 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import ar.org.fransis.radiustool.ItemFragment.OnListFragmentInteractionListener;
-import ar.org.fransis.radiustool.dummy.DummyContent.DummyItem;
 import ar.org.fransis.radiustool.model.Result;
 import ar.org.fransis.radiustool.service.RadiusService;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
 
     private final List<Result> mValues;
