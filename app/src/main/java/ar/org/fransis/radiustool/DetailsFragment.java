@@ -8,14 +8,18 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import ar.org.fransis.radiustool.model.Result;
 import ar.org.fransis.radiustool.model.TestCase;
@@ -47,6 +51,7 @@ public class DetailsFragment extends Fragment implements FragmentLifecycle {
     private TextView mTextResponseTime = null;
     private TextView mTextReplyMessage = null;
     private ImageView mIconView = null;
+    private AdView mAdView = null;
     private int normalTimeResponse = 0;
     private int highTimeResponse = 0;
 
@@ -95,7 +100,30 @@ public class DetailsFragment extends Fragment implements FragmentLifecycle {
         mTextResponseTime = view.findViewById(R.id.text_time_response);
         mTextReplyMessage = view.findViewById(R.id.text_radius_reply_message);
         mIconView = view.findViewById(R.id.image_response);
+        mAdView = (AdView) view.findViewById(R.id.adView);
+        mAdView.setAdListener(new AdListener(){
+            @Override
+            public void onAdFailedToLoad(int i) {
+                Log.d("Ads", "mAdView onAdFailedToLoad " + i);
+                super.onAdFailedToLoad(i);
+            }
 
+            @Override
+            public void onAdLoaded() {
+                Log.d("Ads", "mAdView Loaded");
+                super.onAdLoaded();
+            }
+
+            @Override
+            public void onAdClicked() {
+                Log.d("Ads", "mAdView AdClicked");
+                super.onAdClicked();
+            }
+        });
+        AdRequest adRequest = new AdRequest.Builder()
+                //.addTestDevice("9B75E357FEC4150DBD2350B1A0A6E908")
+                .build();
+        mAdView.loadAd(adRequest);
 
         return view;
     }

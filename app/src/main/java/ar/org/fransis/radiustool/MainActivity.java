@@ -96,12 +96,12 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onAdFailedToLoad(int i) {
                 Log.d("Ads", "mInterstitialAdPreference onAdFailedToLoad " + i);
+                mInterstitialAdPreference.loadAd(new AdRequest.Builder().build());
             }
 
             @Override
             public void onAdLoaded() {
                 Log.d("Ads", "mInterstitialAdPreference Loaded");
-                //super.onAdLoaded();
             }
 
             @Override
@@ -109,7 +109,6 @@ public class MainActivity extends AppCompatActivity
                 mInterstitialAdPreference.loadAd(new AdRequest.Builder().build());
                 Log.d(LOG_ADS_TAG, "mInterstitialAdPreference AdClosed");
                 Toast.makeText(activity, getString(R.string.pref_gracias_platita), Toast.LENGTH_SHORT).show();
-                activity.onBackPressed();
             }
 
         });
