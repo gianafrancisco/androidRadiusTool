@@ -24,6 +24,10 @@ android {
             }
         }
     }
+    sourceSets {
+        // Adds exported schema location as test app assets.
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -58,7 +62,7 @@ dependencies {
     //compile 'com.android.support:design:24.2.1'
     implementation 'com.google.code.findbugs:jsr305:2.0.1'
     androidTestImplementation 'com.google.code.findbugs:jsr305:2.0.1'
-    def room_version = "2.2.3"
+    def room_version = "2.2.4"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     // use kapt for Kotlin
@@ -70,5 +74,4 @@ dependencies {
     testImplementation "androidx.room:room-testing:$room_version"
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
     implementation "com.fasterxml.jackson.core:jackson-databind:2.10.3"
-
 }
