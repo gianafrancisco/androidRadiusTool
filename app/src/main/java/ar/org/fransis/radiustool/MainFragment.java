@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AlertDialog;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +23,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 import ar.org.fransis.radiustool.model.Result;
 import ar.org.fransis.radiustool.model.TestCase;
 
-public class MainFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class MainFragment extends Fragment implements AdapterView.OnItemSelectedListener, FragmentLifecycle{
 
     private OnFragmentInteractionListener mListener;
 
@@ -45,6 +48,7 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
     private ArrayAdapter<TestCase> adapter = null;
     private ImageView icView = null;
     private ProgressBar pbar = null;
+    private AdView mAdView = null;
     private int normalTimeResponse = 0;
     private int highTimeResponse = 0;
 
@@ -112,12 +116,30 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
         spinnerTestCase.setAdapter(adapter);
         spinnerTestCase.setOnItemSelectedListener(this);
 
-        AdView adView = (AdView) view.findViewById(R.id.adView);
+        mAdView = (AdView) view.findViewById(R.id.adView);
+        mAdView.setAdListener(new AdListener(){
+            @Override
+            public void onAdFailedToLoad(int i) {
+                Log.d("Ads", "mAdView onAdFailedToLoad " + i);
+                super.onAdFailedToLoad(i);
+            }
 
+            @Override
+            public void onAdLoaded() {
+                Log.d("Ads", "mAdView Loaded");
+                super.onAdLoaded();
+            }
+
+            @Override
+            public void onAdClicked() {
+                Log.d("Ads", "mAdView AdClicked");
+                super.onAdClicked();
+            }
+        });
         AdRequest adRequest = new AdRequest.Builder()
                 //.addTestDevice("9B75E357FEC4150DBD2350B1A0A6E908")
                 .build();
-        adView.loadAd(adRequest);
+        mAdView.loadAd(adRequest);
 
         loadPreferences();
 
@@ -209,6 +231,16 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    @Override
+    public void onPauseFragment() {
+
+    }
+
+    @Override
+    public void onResumeFragment() {
 
     }
 

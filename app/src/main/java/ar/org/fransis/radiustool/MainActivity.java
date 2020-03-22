@@ -32,21 +32,20 @@ public class MainActivity extends AppCompatActivity
             AboutMeFragment.OnFragmentInteractionListener,
             SettingsFragment.OnFragmentInteractionListener,
             ItemFragment.OnListFragmentInteractionListener,
-            DetailsFragment.OnFragmentInteractionListener {
+            DetailsFragment.OnFragmentInteractionListener, ViewPager.OnPageChangeListener {
 
     public static final String LOG_ADS_TAG = "Ads";
     private InterstitialAd mInterstitialAd;
     private InterstitialAd mInterstitialAdPreference;
     private MainFragment mMainFragment;
-    private SettingsFragment mSettingsFragment;
-    private AboutMeFragment mAboutMeFragment;
-    private ItemFragment mItemFragment;
     private TestCaseDB mDatabase = null;
     private ar.org.fransis.radiustool.dao.TestCase mTestCaseDAO;
     private TabLayout mTab;
     private PagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
     private List<Result> mResults;
+    private Result mResultSelected = null;
+    private int mTabCurrentPosition = 0;
 
 
     @Override
@@ -97,12 +96,12 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onAdFailedToLoad(int i) {
                 Log.d("Ads", "mInterstitialAdPreference onAdFailedToLoad " + i);
+                mInterstitialAdPreference.loadAd(new AdRequest.Builder().build());
             }
 
             @Override
             public void onAdLoaded() {
                 Log.d("Ads", "mInterstitialAdPreference Loaded");
-                //super.onAdLoaded();
             }
 
             @Override
@@ -110,7 +109,6 @@ public class MainActivity extends AppCompatActivity
                 mInterstitialAdPreference.loadAd(new AdRequest.Builder().build());
                 Log.d(LOG_ADS_TAG, "mInterstitialAdPreference AdClosed");
                 Toast.makeText(activity, getString(R.string.pref_gracias_platita), Toast.LENGTH_SHORT).show();
-                activity.onBackPressed();
             }
 
         });
@@ -119,37 +117,7 @@ public class MainActivity extends AppCompatActivity
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
         mTab = (TabLayout) findViewById(R.id.tab_layout);
-        /*
-        mTab.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition())
-                {
-                    case 0:
-                        openRadius();
-                        break;
-                    case 1:
-                        openList();
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        openAboutMe();
-                        break;
-                }
-            }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-        */
         // Load an ad into the AdMob banner view.
 
         mDatabase = Room.databaseBuilder(this.getApplicationContext(),
@@ -163,18 +131,13 @@ public class MainActivity extends AppCompatActivity
         mPagerAdapter = new PagerAdapter( getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.addOnPageChangeListener(this);
         mTab.setupWithViewPager(mViewPager);
         mTab.setTabMode(TabLayout.MODE_SCROLLABLE);
         mResults = new ArrayList<>();
 
         mMainFragment = (MainFragment) mPagerAdapter.getItem(Tab.RADIUS.value);
-/*
-        mMainFragment = MainFragment.newInstance("","");
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, mMainFragment);
-        fragmentTransaction.commit();
-*/
+
         AppRate.with(this)
                 .setInstallDays((byte) 0)                  // default is 10, 0 means install day, 10 means app is launched 10 or more days later than installation
                 .setLaunchTimes((byte) 5)                  // default is 10, 3 means app is launched 3 or more times
@@ -253,6 +216,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public Result getResultSelected() {
+        return mResultSelected;
+    }
+
+    @Override
     public void onShowAdPreference() {
         if(mInterstitialAdPreference.isLoaded()){
             mInterstitialAdPreference.show();
@@ -301,15 +269,39 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onTestCompleted(Result result) {
         mResults.add(result);
+        mResultSelected = result;
     }
 
     @Override
     public void onListFragmentInteraction(Result item) {
+        mResultSelected = item;
+        mViewPager.setCurrentItem(Tab.DETAILS.value);
 
     }
 
     @Override
     public List<Result> getResults() {
         return mResults;
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        FragmentLifecycle fragmentToShow = (FragmentLifecycle)mPagerAdapter.getItem(position);
+        fragmentToShow.onResumeFragment();
+
+        FragmentLifecycle fragmentToHide = (FragmentLifecycle)mPagerAdapter.getItem(position);
+        fragmentToHide.onPauseFragment();
+
+        mTabCurrentPosition = position;
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

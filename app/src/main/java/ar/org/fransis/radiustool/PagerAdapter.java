@@ -6,8 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
 
 public class PagerAdapter extends FragmentPagerAdapter
 {
@@ -34,7 +32,7 @@ public class PagerAdapter extends FragmentPagerAdapter
                     fragment = MainFragment.newInstance("","");
                 }
                 else if(position == Tab.DETAILS.value) {
-                    fragment = DetailsFragment.newInstance("","");
+                    fragment = DetailsFragment.newInstance();
                 }
                 else if(position == Tab.RESULTS.value) {
                     fragment = ItemFragment.newInstance(0);
