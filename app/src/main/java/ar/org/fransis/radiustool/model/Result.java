@@ -1,12 +1,21 @@
 package ar.org.fransis.radiustool.model;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import ar.org.fransis.radiustool.converter.TestCaseConverter;
+
+@Entity
 public class Result {
-    public static int id = 0;
+    public static long id = 0;
+    @TypeConverters(TestCaseConverter.class)
     private TestCase mTestCase;
     private String mReplyMessage;
     private long mResponseTime;
     private String mResponseType;
-    private int mId;
+    @PrimaryKey
+    private long mId;
 
     public Result(TestCase testCase, String mReplyMessage, String mResponseType, long mResponseTime) {
         id++;
@@ -32,7 +41,7 @@ public class Result {
     {
         return this.mResponseType;
     }
-    public int getId()
+    public long getId()
     {
         return mId;
     }
