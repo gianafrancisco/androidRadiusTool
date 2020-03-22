@@ -5,14 +5,12 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-
 import java.util.List;
 
-import ar.org.fransis.radiustool.model.TestCase;
 
 @Dao
 public interface Result {
-    @Query("SELECT * FROM result")
+    @Query("SELECT * FROM result ORDER BY mId DESC")
     List<ar.org.fransis.radiustool.model.Result> getAll();
 
     @Insert

@@ -22,6 +22,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.org.fransis.radiustool.migration.MigrationDB;
 import ar.org.fransis.radiustool.model.Result;
 import ar.org.fransis.radiustool.model.TestCase;
 import ar.org.fransis.radiustool.store.TestCaseDB;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity
     private MainFragment mMainFragment;
     private TestCaseDB mDatabase = null;
     private ar.org.fransis.radiustool.dao.TestCase mTestCaseDAO;
+    private ar.org.fransis.radiustool.dao.Result mResultDAO;
     private TabLayout mTab;
     private PagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
@@ -121,8 +123,12 @@ public class MainActivity extends AppCompatActivity
         // Load an ad into the AdMob banner view.
 
         mDatabase = Room.databaseBuilder(this.getApplicationContext(),
-                TestCaseDB.class, "Testcase.db").allowMainThreadQueries().build();
+                TestCaseDB.class, "Testcase.db")
+                .allowMainThreadQueries()
+                .addMigrations(MigrationDB.MIGRATION_1_2)
+                .build();
         mTestCaseDAO = mDatabase.testCaseDao();
+        mResultDAO = mDatabase.resultDao();
 
         /*
         AdRequest adRequest = new AdRequest.Builder()
@@ -134,7 +140,8 @@ public class MainActivity extends AppCompatActivity
         mViewPager.addOnPageChangeListener(this);
         mTab.setupWithViewPager(mViewPager);
         mTab.setTabMode(TabLayout.MODE_SCROLLABLE);
-        mResults = new ArrayList<>();
+        // mResults = new ArrayList<>();
+        mResults = mResultDAO.getAll();
 
         mMainFragment = (MainFragment) mPagerAdapter.getItem(Tab.RADIUS.value);
 
@@ -194,14 +201,6 @@ public class MainActivity extends AppCompatActivity
 
     private void openAboutMe() {
         mViewPager.setCurrentItem(Tab.ABOUT.value);
-    }
-
-    private void openRadius() {
-        mViewPager.setCurrentItem(Tab.RADIUS.value);
-    }
-
-    private void openList() {
-        mViewPager.setCurrentItem(Tab.RESULTS.value);
     }
 
     @Override
@@ -268,7 +267,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onTestCompleted(Result result) {
-        mResults.add(result);
+        mResultDAO.insert(result);
+        mResults.add(0, result);
         mResultSelected = result;
     }
 

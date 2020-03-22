@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 /**
  * Created by francisco on 9/26/16.
  */
-@Entity
+@Entity(tableName = "testcase")
 public class TestCase {
     @PrimaryKey
     private Long id;
