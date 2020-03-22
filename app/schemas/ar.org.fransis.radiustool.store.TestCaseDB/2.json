@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "b2b74d5f2088a0bba755096b80d3094c",
+    "identityHash": "0f6a192026a0068be8b86336554a9a47",
     "entities": [
       {
         "tableName": "testcase",
@@ -62,7 +62,7 @@
       },
       {
         "tableName": "result",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`mTestCase` TEXT, `mReplyMessage` TEXT, `mResponseTime` INTEGER NOT NULL, `mResponseType` TEXT, `mId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`mTestCase` TEXT, `mReplyMessage` TEXT, `mResponseTime` INTEGER NOT NULL, `mResponseType` TEXT, `mId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mDate` INTEGER)",
         "fields": [
           {
             "fieldPath": "mTestCase",
@@ -93,6 +93,12 @@
             "columnName": "mId",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "mDate",
+            "columnName": "mDate",
+            "affinity": "INTEGER",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -108,7 +114,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b2b74d5f2088a0bba755096b80d3094c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0f6a192026a0068be8b86336554a9a47')"
     ]
   }
 }

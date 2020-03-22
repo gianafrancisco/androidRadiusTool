@@ -13,6 +13,7 @@ public class MigrationDB {
                             + "`mReplyMessage` TEXT,"
                             + "`mResponseTime` INTEGER NOT NULL,"
                             + "`mResponseType` TEXT,"
+                            + "`mDate` INTEGER,"
                             + "`mId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL "
                             + ")"
             );

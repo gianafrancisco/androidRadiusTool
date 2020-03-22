@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Date;
 import java.util.List;
 
 import ar.org.fransis.radiustool.model.Result;
@@ -47,9 +48,11 @@ public class DatabaseTableResultTest {
         String secret = "secret";
         String user = "user";
         String pass = "pass";
+        Date createdDate = new Date();
+        System.out.println(createdDate.toString());
 
         TestCase tc = new TestCase(name, address, authPort, secret, user, pass);
-        Result result = new Result(tc,"test-msg", "ACCEPT", 100L);
+        Result result = new Result(tc,"test-msg", "ACCEPT", 100L, createdDate);
         Assert.assertThat(mResultDAO.getAll().size(), is(0));
         mResultDAO.insert(result);
         List<Result> list = mResultDAO.getAll();
@@ -58,6 +61,7 @@ public class DatabaseTableResultTest {
         Assert.assertThat(list.get(0).getResponseTime(), is(result.getResponseTime()));
         Assert.assertThat(list.get(0).getResponseType(), is(result.getResponseType()));
         Assert.assertThat(list.get(0).getTestName(), is(result.getTestName()));
+        Assert.assertThat(list.get(0).getDate(), is(result.getDate()));
 
 
     }

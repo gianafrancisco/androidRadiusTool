@@ -4,6 +4,8 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import java.util.Date;
+
 import ar.org.fransis.radiustool.converter.TestCaseConverter;
 
 @Entity(tableName = "result")
@@ -15,12 +17,15 @@ public class Result {
     private String mResponseType;
     @PrimaryKey(autoGenerate = true)
     private long mId;
+    @TypeConverters(TestCaseConverter.class)
+    private Date mDate;
 
-    public Result(TestCase testCase, String mReplyMessage, String mResponseType, long mResponseTime) {
+    public Result(TestCase testCase, String mReplyMessage, String mResponseType, long mResponseTime, Date mDate) {
         this.mTestCase = testCase;
         this.mReplyMessage = mReplyMessage;
         this.mResponseTime = mResponseTime;
         this.mResponseType = mResponseType;
+        this.mDate = mDate;
     }
     public String getTestName()
     {
@@ -42,6 +47,7 @@ public class Result {
     {
         return mId;
     }
+    public Date getDate() { return this.mDate; }
     public void setId(long id)
     {
          this.mId = id;
