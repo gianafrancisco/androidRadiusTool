@@ -13,6 +13,7 @@
     -->
 
     <string name="banner_ad_unit_id">ca-app-pub-1743053744662602/5504646078</string>
+    <string name="banner_detail_ad_unit_id">ca-app-pub-1743053744662602/1154524486</string>
     <string name="interstitial_ad_unit_id_splashscreen">ca-app-pub-1743053744662602/2343296115</string>
     <string name="interstitial_ad_unit_id">ca-app-pub-1743053744662602/9060198969</string>
     <string name="interstitial_ad_donation">ca-app-pub-1743053744662602/5080315686</string>
