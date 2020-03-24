@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import ar.org.fransis.radiustool.model.Result;
@@ -142,6 +143,6 @@ public class RadiusAsyncTask extends AsyncTask<Void, Void, HashMap<Integer, Stri
         icView.setVisibility(View.VISIBLE);
         textReplyMessage.setText(ret.get(REPLY_MESSAGE));
 
-        mListener.onTestCompleted(new Result(mTestCase, ret.get(REPLY_MESSAGE), ret.get(RESPONSE_TYPE), responseTime));
+        mListener.onTestCompleted(new Result(mTestCase, ret.get(REPLY_MESSAGE), ret.get(RESPONSE_TYPE), responseTime, new Date()));
     }
 }
