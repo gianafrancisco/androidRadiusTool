@@ -19,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ar.org.fransis.radiustool.migration.MigrationDB;
@@ -303,5 +302,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mTabCurrentPosition == 0) {
+            super.onBackPressed();
+        }
+        else {
+            mViewPager.setCurrentItem(0);
+        }
     }
 }

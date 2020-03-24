@@ -14,6 +14,7 @@ import ar.org.fransis.radiustool.model.Result;
 import ar.org.fransis.radiustool.service.RadiusService;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -24,7 +25,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     private int normalTimeResponse = 0;
     private int highTimeResponse = 0;
     private Context mContext;
-    // private SimpleDateFormat sdf;
+    private SimpleDateFormat sdf;
 
     public MyItemRecyclerViewAdapter(List<Result> items, OnListFragmentInteractionListener listener, int normalTimeResponse, int highTimeResponse, Context context) {
         mValues = items;
@@ -32,8 +33,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         this.normalTimeResponse = normalTimeResponse;
         this.highTimeResponse = highTimeResponse;
         this.mContext = context;
-        // sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-        // sdf.setTimeZone(TimeZone.getTimeZone("CET"));
+        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        sdf.setTimeZone(Calendar.getInstance().getTimeZone());
     }
 
     @Override
@@ -54,8 +55,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.mTimeOutView.setText(responseTime + " ms");
 
 
-        // String date = sdf.format(holder.mItem.getDate());
-        holder.mDateView.setText(holder.mItem.getDate().toString());
+        String date = sdf.format(holder.mItem.getDate());
+        holder.mDateView.setText(date);
 
         holder.mTimeOutView.setTextColor(mContext.getResources().getColor(R.color.level_0_time_response));
         if(responseTime > normalTimeResponse){

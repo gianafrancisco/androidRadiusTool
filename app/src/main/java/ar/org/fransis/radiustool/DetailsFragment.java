@@ -104,19 +104,19 @@ public class DetailsFragment extends Fragment implements FragmentLifecycle {
         mAdView.setAdListener(new AdListener(){
             @Override
             public void onAdFailedToLoad(int i) {
-                Log.d("Ads", "mAdView onAdFailedToLoad " + i);
+                Log.d("Ads", "details - mAdView onAdFailedToLoad " + i);
                 super.onAdFailedToLoad(i);
             }
 
             @Override
             public void onAdLoaded() {
-                Log.d("Ads", "mAdView Loaded");
+                Log.d("Ads", "details - mAdView Loaded");
                 super.onAdLoaded();
             }
 
             @Override
             public void onAdClicked() {
-                Log.d("Ads", "mAdView AdClicked");
+                Log.d("Ads", "details - mAdView AdClicked");
                 super.onAdClicked();
             }
         });
