@@ -1,5 +1,8 @@
 package ar.org.fransis.radiustool;
 
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.Fragment;
@@ -9,44 +12,52 @@ import java.util.HashMap;
 
 public class PagerAdapter extends FragmentPagerAdapter
 {
-        private HashMap<Integer,Fragment> mMap;
+    private HashMap<Integer,Fragment> mMap;
 
-        static final int NUM_ITEMS = 5;
-        public PagerAdapter(FragmentManager fm) {
-            super(fm);
-            mMap = new HashMap<>();
-        }
+    static final int NUM_ITEMS = 5;
+    public PagerAdapter(FragmentManager fm) {
+        super(fm);
+        mMap = new HashMap<>();
+    }
 
-        @Override
-        public int getCount() {
-            return NUM_ITEMS;
-        }
+    @Override
+    public int getCount() {
+        return NUM_ITEMS;
+    }
 
-        @Override
-        public Fragment getItem(int position) {
-            Fragment fragment = mMap.get(position);
-            if(fragment == null)
+    @NonNull
+    @Override
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        Object obj = super.instantiateItem(container, position);
+        mMap.put(position, (Fragment) obj);
+        return obj;
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        Fragment fragment = mMap.get(position);
+        if(fragment == null)
+        {
+            if(position == Tab.RADIUS.value)
             {
-                if(position == Tab.RADIUS.value)
-                {
-                    fragment = MainFragment.newInstance("","");
-                }
-                else if(position == Tab.DETAILS.value) {
-                    fragment = DetailsFragment.newInstance();
-                }
-                else if(position == Tab.RESULTS.value) {
-                    fragment = ItemFragment.newInstance(0);
-                }
-                else if(position == Tab.ABOUT.value) {
-                    fragment = AboutMeFragment.newInstance("","");
-                }
-                else if(position == Tab.PREFERENCE.value) {
-                    fragment = SettingsFragment.newInstance();
-                }
-                mMap.put(position, fragment);
+                fragment = MainFragment.newInstance("","");
             }
-            return fragment;
+            else if(position == Tab.DETAILS.value) {
+                fragment = DetailsFragment.newInstance();
+            }
+            else if(position == Tab.RESULTS.value) {
+                fragment = ItemFragment.newInstance(0);
+            }
+            else if(position == Tab.ABOUT.value) {
+                fragment = AboutMeFragment.newInstance("","");
+            }
+            else if(position == Tab.PREFERENCE.value) {
+                fragment = SettingsFragment.newInstance();
+            }
+            mMap.put(position, fragment);
         }
+        return fragment;
+    }
 
     @Nullable
     @Override

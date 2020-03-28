@@ -5,6 +5,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.tabs.TabLayout;
+
 import androidx.viewpager.widget.ViewPager;
 import com.vorlonsoft.android.rate.AppRate;
 
@@ -13,7 +14,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
-
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -51,6 +51,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        setTheme(R.style.AppTheme);
+        setContentView(R.layout.activity_main);
 
         MobileAds.initialize(this, getResources().getString(R.string.banner_ad_unit_id));
         mInterstitialAd = new InterstitialAd(this);
@@ -114,9 +117,6 @@ public class MainActivity extends AppCompatActivity
 
         });
 
-        super.onCreate(savedInstanceState);
-        setTheme(R.style.AppTheme);
-        setContentView(R.layout.activity_main);
         mTab = (TabLayout) findViewById(R.id.tab_layout);
 
         // Load an ad into the AdMob banner view.
@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity
                 .monitor();                                // Monitors the app launch times
         AppRate.showRateDialogIfMeetsConditions(this); // Shows the Rate Dialog when conditions are met
 
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -269,6 +270,7 @@ public class MainActivity extends AppCompatActivity
         mResultDAO.insert(result);
         mResults.add(0, result);
         mResultSelected = result;
+
     }
 
     @Override

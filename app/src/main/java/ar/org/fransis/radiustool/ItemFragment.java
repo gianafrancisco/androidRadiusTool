@@ -26,7 +26,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class ItemFragment extends Fragment implements FragmentLifecycle{
+public class ItemFragment extends Fragment implements FragmentLifecycle {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -112,7 +112,9 @@ public class ItemFragment extends Fragment implements FragmentLifecycle{
 
     @Override
     public void onResumeFragment() {
-        mRecyclerView.setAdapter(new MyItemRecyclerViewAdapter(mListener.getResults(), mListener, normalTimeResponse, highTimeResponse, getActivity().getApplicationContext()));
+        if( mListener != null){
+            mRecyclerView.setAdapter(new MyItemRecyclerViewAdapter(mListener.getResults(), mListener, normalTimeResponse, highTimeResponse, getActivity().getApplicationContext()));
+        }
     }
 
     @Override
