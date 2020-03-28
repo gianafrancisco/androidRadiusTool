@@ -26,23 +26,27 @@ android {
     }
 
     signingConfigs {
-        release {
-            def storeFileName = System.getenv("RELEASE_STORE_FILE")
-            def storePass = System.getenv("RELEASE_STORE_PASSWORD")
-            def storeKey = System.getenv("RELEASE_KEY_ALIAS")
-            def storeKeyPass = System.getenv("RELEASE_KEY_PASSWORD")
+        def storeFileName = System.getenv("RELEASE_STORE_FILE")
+        def storePass = System.getenv("RELEASE_STORE_PASSWORD")
+        def storeKey = System.getenv("RELEASE_KEY_ALIAS")
+        def storeKeyPass = System.getenv("RELEASE_KEY_PASSWORD")
+        if (storeFileName != null)
+            release {
 
-            storeFile file(storeFileName==null?'android-keystore.jks':storeFileName)
-            storePassword((storePass==null)?'***':storePass)
-            keyAlias ((storeKey==null)?'keyX':storeKey)
-            keyPassword ((storeKeyPass==null)?'***':storeKeyPass)
-        }
+
+                    storeFile file(storeFileName)
+                    storePassword(storePass)
+                    keyAlias (storeKey)
+                    keyPassword (storeKeyPass)
+            }
     }
 
     buildTypes {
-        release {
-            signingConfig signingConfigs.release
-        }
+        def storeFileName = System.getenv("RELEASE_STORE_FILE")
+        if (storeFileName != null)
+            release {
+                signingConfig signingConfigs.release
+            }
     }
 
     sourceSets {
