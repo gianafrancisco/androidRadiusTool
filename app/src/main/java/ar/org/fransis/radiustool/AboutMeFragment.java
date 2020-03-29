@@ -19,7 +19,7 @@ import android.view.ViewGroup;
  * Use the {@link AboutMeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AboutMeFragment extends Fragment implements FragmentLifecycle {
+public class AboutMeFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
@@ -89,16 +89,6 @@ public class AboutMeFragment extends Fragment implements FragmentLifecycle {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void onPauseFragment() {
-
-    }
-
-    @Override
-    public void onResumeFragment() {
-
     }
 
     /**

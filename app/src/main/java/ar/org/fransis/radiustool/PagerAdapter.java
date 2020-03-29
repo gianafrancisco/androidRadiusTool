@@ -25,6 +25,14 @@ public class PagerAdapter extends FragmentPagerAdapter
         return NUM_ITEMS;
     }
 
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        if(object instanceof DetailsFragment || object instanceof ItemFragment) {
+            return super.POSITION_NONE;
+        }
+        return super.POSITION_UNCHANGED;
+    }
+
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {

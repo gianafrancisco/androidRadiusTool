@@ -30,7 +30,7 @@ import com.google.android.gms.ads.AdView;
 import ar.org.fransis.radiustool.model.Result;
 import ar.org.fransis.radiustool.model.TestCase;
 
-public class MainFragment extends Fragment implements AdapterView.OnItemSelectedListener, FragmentLifecycle {
+public class MainFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private OnFragmentInteractionListener mListener;
 
@@ -190,16 +190,6 @@ public class MainFragment extends Fragment implements AdapterView.OnItemSelected
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
-
-    @Override
-    public void onPauseFragment() {
-
-    }
-
-    @Override
-    public void onResumeFragment() {
 
     }
 

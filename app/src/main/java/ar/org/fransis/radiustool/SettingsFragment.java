@@ -11,7 +11,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import android.view.Menu;
 
-public class SettingsFragment extends PreferenceFragmentCompat implements FragmentLifecycle {
+public class SettingsFragment extends PreferenceFragmentCompat {
 
     private OnFragmentInteractionListener mListener;
 
@@ -71,16 +71,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Fragme
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void onPauseFragment() {
-
-    }
-
-    @Override
-    public void onResumeFragment() {
-
     }
 
     /**

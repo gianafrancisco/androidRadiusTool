@@ -6,6 +6,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import com.vorlonsoft.android.rate.AppRate;
 
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity
             AboutMeFragment.OnFragmentInteractionListener,
             SettingsFragment.OnFragmentInteractionListener,
             ItemFragment.OnListFragmentInteractionListener,
-            DetailsFragment.OnFragmentInteractionListener, ViewPager.OnPageChangeListener {
+            DetailsFragment.OnFragmentInteractionListener {
 
     public static final String LOG_ADS_TAG = "Ads";
     private InterstitialAd mInterstitialAd;
@@ -51,6 +52,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        if(savedInstanceState != null){
+            mResultSelected = (Result) savedInstanceState.getSerializable("resultSelected");
+        }
 
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
@@ -136,11 +141,13 @@ public class MainActivity extends AppCompatActivity
         mPagerAdapter = new PagerAdapter( getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mPagerAdapter);
-        mViewPager.addOnPageChangeListener(this);
         mTab.setupWithViewPager(mViewPager);
         mTab.setTabMode(TabLayout.MODE_SCROLLABLE);
         // mResults = new ArrayList<>();
         mResults = mResultDAO.getAll();
+        if(mResultSelected == null){
+            mResultSelected = mResults.get(0);
+        }
 
         mMainFragment = (MainFragment) mPagerAdapter.getItem(Tab.RADIUS.value);
 
@@ -161,6 +168,12 @@ public class MainActivity extends AppCompatActivity
         AppRate.showRateDialogIfMeetsConditions(this); // Shows the Rate Dialog when conditions are met
 
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putSerializable("resultSelected", mResultSelected);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -270,40 +283,19 @@ public class MainActivity extends AppCompatActivity
         mResultDAO.insert(result);
         mResults.add(0, result);
         mResultSelected = result;
-
+        mPagerAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onListFragmentInteraction(Result item) {
         mResultSelected = item;
+        mPagerAdapter.notifyDataSetChanged();
         mViewPager.setCurrentItem(Tab.DETAILS.value);
-
     }
 
     @Override
     public List<Result> getResults() {
         return mResults;
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        FragmentLifecycle fragmentToShow = (FragmentLifecycle)mPagerAdapter.getItem(position);
-        fragmentToShow.onResumeFragment();
-
-        FragmentLifecycle fragmentToHide = (FragmentLifecycle)mPagerAdapter.getItem(position);
-        fragmentToHide.onPauseFragment();
-
-        mTabCurrentPosition = position;
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
     }
 
     @Override

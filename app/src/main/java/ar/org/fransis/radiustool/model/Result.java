@@ -4,12 +4,14 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import ar.org.fransis.radiustool.converter.TestCaseConverter;
 
 @Entity(tableName = "result")
-public class Result {
+public class Result implements Serializable {
+
     @TypeConverters(TestCaseConverter.class)
     private TestCase mTestCase;
     private String mReplyMessage;

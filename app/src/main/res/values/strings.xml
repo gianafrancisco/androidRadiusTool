@@ -26,6 +26,7 @@
     <string name="server_secret">Shared secret</string>
     <string name="server_name">Test Name</string>
     <string name="auth_port_value">1812</string>
+    <string name="date">Date</string>
 
     <string name="about_me_uno">Francisco Giana \nDeveloper and Network Engineer</string>
     <string name="about_me_dos">Simple Radius Test Tool © 2018\n<i><u>gianafrancisco@gmail.com</u></i></string>

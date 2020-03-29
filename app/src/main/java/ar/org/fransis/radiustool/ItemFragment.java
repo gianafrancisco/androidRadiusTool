@@ -26,15 +26,15 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class ItemFragment extends Fragment implements FragmentLifecycle {
+public class ItemFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
-    private int normalTimeResponse = 0;
-    private int highTimeResponse = 0;
+    private int mNormalTimeResponse = 0;
+    private int mHighTimeResponse = 0;
     private RecyclerView mRecyclerView;
 
     /**
@@ -70,8 +70,8 @@ public class ItemFragment extends Fragment implements FragmentLifecycle {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-        normalTimeResponse = Integer.parseInt(sp.getString("pref_normal_time_response","100"));
-        highTimeResponse = Integer.parseInt(sp.getString("pref_high_time_response","300"));
+        mNormalTimeResponse = Integer.parseInt(sp.getString("pref_normal_time_response","100"));
+        mHighTimeResponse = Integer.parseInt(sp.getString("pref_high_time_response","300"));
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -82,7 +82,7 @@ public class ItemFragment extends Fragment implements FragmentLifecycle {
             } else {
                 mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            mRecyclerView.setAdapter(new MyItemRecyclerViewAdapter(mListener.getResults(), mListener, normalTimeResponse, highTimeResponse, getActivity().getApplicationContext()));
+            mRecyclerView.setAdapter(new MyItemRecyclerViewAdapter(mListener.getResults(), mListener, mNormalTimeResponse, mHighTimeResponse, getActivity().getApplicationContext()));
         }
         return view;
     }
@@ -103,18 +103,6 @@ public class ItemFragment extends Fragment implements FragmentLifecycle {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void onPauseFragment() {
-
-    }
-
-    @Override
-    public void onResumeFragment() {
-        if( mListener != null){
-            mRecyclerView.setAdapter(new MyItemRecyclerViewAdapter(mListener.getResults(), mListener, normalTimeResponse, highTimeResponse, getActivity().getApplicationContext()));
-        }
     }
 
     @Override

@@ -21,6 +21,9 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import ar.org.fransis.radiustool.model.Result;
 import ar.org.fransis.radiustool.model.TestCase;
 import ar.org.fransis.radiustool.service.RadiusService;
@@ -34,12 +37,7 @@ import ar.org.fransis.radiustool.service.RadiusService;
  * Use the {@link DetailsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DetailsFragment extends Fragment implements FragmentLifecycle {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
+public class DetailsFragment extends Fragment {
 
     private TextView mTextName = null;
     private TextView mTextAddress = null;
@@ -50,20 +48,20 @@ public class DetailsFragment extends Fragment implements FragmentLifecycle {
     private TextView mTextResponse = null;
     private TextView mTextResponseTime = null;
     private TextView mTextReplyMessage = null;
+    private TextView mTextDate = null;
     private ImageView mIconView = null;
     private AdView mAdView = null;
-    private int normalTimeResponse = 0;
-    private int highTimeResponse = 0;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private int mNormalTimeResponse = 0;
+    private int mHighTimeResponse = 0;
+    private SimpleDateFormat sdf = null;
 
     private OnFragmentInteractionListener mListener;
-    private Result mResult;
 
     public DetailsFragment() {
         // Required empty public constructor
+        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(Calendar.getInstance().getTimeZone());
+
     }
 
     /**
@@ -99,6 +97,7 @@ public class DetailsFragment extends Fragment implements FragmentLifecycle {
         mTextResponse = view.findViewById(R.id.text_radius_response);
         mTextResponseTime = view.findViewById(R.id.text_time_response);
         mTextReplyMessage = view.findViewById(R.id.text_radius_reply_message);
+        mTextDate = view.findViewById(R.id.text_datetime);
         mIconView = view.findViewById(R.id.image_response);
         mAdView = (AdView) view.findViewById(R.id.adView);
         mAdView.setAdListener(new AdListener(){
@@ -125,6 +124,11 @@ public class DetailsFragment extends Fragment implements FragmentLifecycle {
                 .build();
         mAdView.loadAd(adRequest);
 
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        mNormalTimeResponse = Integer.parseInt(sp.getString("pref_normal_time_response","100"));
+        mHighTimeResponse = Integer.parseInt(sp.getString("pref_high_time_response","300"));
+
+        loadResult();
         return view;
     }
 
@@ -150,20 +154,6 @@ public class DetailsFragment extends Fragment implements FragmentLifecycle {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void onPauseFragment() {
-
-    }
-
-    @Override
-    public void onResumeFragment() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-        normalTimeResponse = Integer.parseInt(sp.getString("pref_normal_time_response","100"));
-        highTimeResponse = Integer.parseInt(sp.getString("pref_high_time_response","300"));
-
-        loadResult();
     }
 
     @Override
@@ -195,6 +185,7 @@ public class DetailsFragment extends Fragment implements FragmentLifecycle {
             long responseTime = result.getResponseTime();
             String message = result.getResponseType();
 
+            mTextDate.setText(sdf.format(result.getDate()));
             mTextName.setText(tc.getName());
             mTextAddress.setText(tc.getAddress());
             mTestAuthPort.setText(Integer.toString(tc.getAuthPort()));
@@ -209,11 +200,11 @@ public class DetailsFragment extends Fragment implements FragmentLifecycle {
             mTextResponse.setTextColor(getContext().getResources().getColor(R.color.level_0_time_response));
             mTextResponseTime.setTextColor(getContext().getResources().getColor(R.color.level_0_time_response));
 
-            if(responseTime > normalTimeResponse){
+            if(responseTime > mNormalTimeResponse){
                 mTextResponse.setTextColor(getContext().getResources().getColor(R.color.level_1_time_response));
                 mTextResponseTime.setTextColor(getContext().getResources().getColor(R.color.level_1_time_response));
             }
-            if(responseTime > highTimeResponse){
+            if(responseTime > mHighTimeResponse){
                 mTextResponse.setTextColor(getContext().getResources().getColor(R.color.level_2_time_response));
                 mTextResponseTime.setTextColor(getContext().getResources().getColor(R.color.level_2_time_response));
             }

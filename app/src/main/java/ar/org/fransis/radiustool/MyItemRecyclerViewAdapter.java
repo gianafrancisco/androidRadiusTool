@@ -33,7 +33,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         this.normalTimeResponse = normalTimeResponse;
         this.highTimeResponse = highTimeResponse;
         this.mContext = context;
-        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         sdf.setTimeZone(Calendar.getInstance().getTimeZone());
     }
 
