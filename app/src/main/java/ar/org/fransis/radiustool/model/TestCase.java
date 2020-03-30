@@ -4,11 +4,13 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 /**
  * Created by francisco on 9/26/16.
  */
 @Entity(tableName = "testcase")
-public class TestCase {
+public class TestCase implements Serializable {
     @PrimaryKey
     private Long id;
     private String name;
