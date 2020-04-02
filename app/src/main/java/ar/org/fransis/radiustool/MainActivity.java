@@ -47,8 +47,6 @@ public class MainActivity extends AppCompatActivity
     private ViewPager mViewPager;
     private List<Result> mResults;
     private Result mResultSelected = null;
-    private int mTabCurrentPosition = 0;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -300,7 +298,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        if (mTabCurrentPosition == 0) {
+        if (mViewPager.getCurrentItem() == 0) {
             super.onBackPressed();
         }
         else {
