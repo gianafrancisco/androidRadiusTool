@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity
         mTab.setTabMode(TabLayout.MODE_SCROLLABLE);
         // mResults = new ArrayList<>();
         mResults = mResultDAO.getAll();
-        if(mResultSelected == null){
+        if(mResults.size() > 0 && mResultSelected == null){
             mResultSelected = mResults.get(0);
         }
 
