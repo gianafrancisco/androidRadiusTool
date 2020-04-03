@@ -6,12 +6,15 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import android.text.InputType;
 import android.view.Menu;
+import android.widget.EditText;
 
-public class SettingsFragment extends PreferenceFragmentCompat {
+public class SettingsFragment extends PreferenceFragmentCompat implements EditTextPreference.OnBindEditTextListener {
 
     private OnFragmentInteractionListener mListener;
 
@@ -73,6 +76,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         mListener = null;
     }
 
+    @Override
+    public void onBindEditText(@NonNull EditText editText) {
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -93,6 +101,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         // Load the preferences from an XML resource
         setPreferencesFromResource(R.xml.preferences, rootKey);
+
+        EditTextPreference editTextNormalTime = (EditTextPreference)findPreference("pref_normal_time_response");
+        editTextNormalTime.setOnBindEditTextListener(this);
+        EditTextPreference editTextHighTime = (EditTextPreference)findPreference("pref_high_time_response");
+        editTextHighTime.setOnBindEditTextListener(this);
 
         Preference pref_Compartir = (Preference) findPreference("pref_compartir");
         pref_Compartir.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
